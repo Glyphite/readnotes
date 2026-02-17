@@ -3,14 +3,28 @@ chcp 65001 >nul
 setlocal enabledelayedexpansion
 
 echo ========================================
-echo         Git一键同步工具 v1.0
+echo         Git一键同步工具 v1.1
 echo ========================================
 echo.
+
+REM 配置您的Git仓库路径
+set "GIT_REPO_PATH=C:\Users\Administrator\Documents\glyphite-message"
+
+REM 检查配置的路径是否存在
+if not exist "!GIT_REPO_PATH!" (
+    echo [错误] 配置的Git仓库路径不存在：!GIT_REPO_PATH!
+    pause
+    exit /b 1
+)
+
+REM 切换到Git仓库目录
+echo [信息] 正在切换到Git仓库目录：!GIT_REPO_PATH!
+cd /d "!GIT_REPO_PATH!"
 
 REM 检查当前目录是否是Git仓库
 if not exist ".git" (
     echo [错误] 当前目录不是Git仓库！
-    echo 请将此脚本放在您的项目根目录下运行。
+    echo 当前目录：%cd%
     pause
     exit /b 1
 )
@@ -102,27 +116,27 @@ if !errorlevel! equ 0 (
     git push origin main
     
     if !errorlevel! equ 0 (
-        echo   ✓ 推送成功！
+        echo   推送成功！
         echo.
         echo   ========================================
         echo   同步流程完成！
         echo   ========================================
     ) else (
-        echo   ✗ 推送失败，错误代码: !errorlevel!
+        echo   推送失败，错误代码: !errorlevel!
         echo   尝试强制推送？(Y/N - 注意：这可能会覆盖远程更改)
         set /p force_push=
         if /i "!force_push!"=="Y" (
             echo   执行强制推送...
             git push -f origin main
             if !errorlevel! equ 0 (
-                echo   ✓ 强制推送成功！
+                echo   强制推送成功！
             ) else (
-                echo   ✗ 强制推送失败！
+                echo   强制推送失败！
             )
         )
     )
 ) else (
-    echo   ✗ 未找到 origin 远程仓库或 main 分支
+    echo   未找到 origin 远程仓库或 main 分支
     echo   请检查远程仓库配置：
     git remote -v
     echo.
@@ -145,6 +159,7 @@ REM 步骤5：显示同步状态摘要
 echo.
 echo [步骤5] 同步状态摘要
 echo ========================================
+echo 仓库路径：    !GIT_REPO_PATH!
 echo 本地分支：    main
 echo 远程仓库：    origin
 echo 目标分支：    main

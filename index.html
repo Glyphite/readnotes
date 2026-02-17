@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glyphite 的书评留言板</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_10036_16.597e5e02a34d2c3ae5cda7f869105c5f.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 共享书斋</h1>
+            <p class="subtitle">一个由 Gitee Issues 驱动的开源书评与留言板</p>
+            <p class="stats">
+                已收录 <a href="https://gitee.com/Glyphite/glyphite-message/issues" target="_blank" id="issue-count">...</a> 条书评与感悟
+            </p>
+        </header>
+
+        <main>
+            <section class="intro">
+                <p>这里每一篇文字，都是关于一本书的遇见。欢迎分享你的阅读印记。</p>
+                <div class="actions">
+                    <a href="https://gitee.com/Glyphite/glyphite-message/issues" class="btn primary" target="_blank">
+                        <i class="icon-park-outline--view-list"></i> 浏览全部书评
+                    </a>
+                    <a href="https://gitee.com/Glyphite/glyphite-message/issues/new?issue%5Btitle%5D=%5B%E4%B9%A6%E8%AF%84%5D%20%E3%80%8A%E4%B9%A6%E5%90%8D%E3%80%8B" class="btn secondary" target="_blank">
+                        <i class="icon-park-outline--edit"></i> 撰写新的书评
+                    </a>
+                </div>
+            </section>
+
+            <section class="guide">
+                <h2><i class="icon-park-outline--light"></i> 如何参与？</h2>
+                <ol>
+                    <li>点击【撰写新的书评】，会跳转到 Gitee 的 Issue 页面。</li>
+                    <li>使用我们准备好的模板，填写书籍信息和你的感想。</li>
+                    <li>提交后，你的书评就会出现在【浏览全部书评】的列表中。</li>
+                </ol>
+                <p class="note">💡 所有书评都存储在仓库的 <code>Issues</code> 中，公开可读，永不丢失。</p>
+            </section>
+
+            <!-- 预留一个位置给未来可能动态加载的书评列表 -->
+            <section id="recent-posts" style="margin-top: 3rem;">
+                <h2><i class="icon-park-outline--book"></i> 最新书评（示例）</h2>
+                <p><i>（这是一个静态示例。如需实时显示，需使用下方【进阶方案】中的动态加载代码。）</i></p>
+                <div class="issue-list">
+                    <div class="issue-item">
+                        <h3><a href="#">[书评] 《示例书籍》</a></h3>
+                        <p class="meta">创建于 2023-10-27 | 标签：<span class="label">书评</span></p>
+                        <p>这是一条示例书评，用于展示页面效果。真正的书评会在你点击上方按钮后，在 Gitee Issues 页面中看到。</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Powered by <a href="https://gitee.com" target="_blank">Gitee</a> & ❤️ | 仓库地址：<a href="https://gitee.com/Glyphite/glyphite-message" target="_blank">glyphite-message</a></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

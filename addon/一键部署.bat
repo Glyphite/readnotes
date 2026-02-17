@@ -116,27 +116,37 @@ if !errorlevel! equ 0 (
     git push origin main
     
     if !errorlevel! equ 0 (
-        echo   推送成功！
+        echo   ✓ 推送成功！
         echo.
         echo   ========================================
         echo   同步流程完成！
         echo   ========================================
+        echo.
+        echo [信息] 同步完成，0.5秒后自动关闭...
+        REM 等待0.5秒后自动关闭
+        ping -n 2 127.0.0.1 >nul
+        exit /b 0
     ) else (
-        echo   推送失败，错误代码: !errorlevel!
+        echo   ✗ 推送失败，错误代码: !errorlevel!
         echo   尝试强制推送？(Y/N - 注意：这可能会覆盖远程更改)
         set /p force_push=
         if /i "!force_push!"=="Y" (
             echo   执行强制推送...
             git push -f origin main
             if !errorlevel! equ 0 (
-                echo   强制推送成功！
+                echo   ✓ 强制推送成功！
+                echo.
+                echo [信息] 同步完成，0.5秒后自动关闭...
+                REM 等待0.5秒后自动关闭
+                ping -n 2 127.0.0.1 >nul
+                exit /b 0
             ) else (
-                echo   强制推送失败！
+                echo   ✗ 强制推送失败！
             )
         )
     )
 ) else (
-    echo   未找到 origin 远程仓库或 main 分支
+    echo   ✗ 未找到 origin 远程仓库或 main 分支
     echo   请检查远程仓库配置：
     git remote -v
     echo.
@@ -155,7 +165,7 @@ if !errorlevel! equ 0 (
     )
 )
 
-REM 步骤5：显示同步状态摘要
+REM 如果执行到这里，说明同步过程中出现问题
 echo.
 echo [步骤5] 同步状态摘要
 echo ========================================
@@ -163,7 +173,7 @@ echo 仓库路径：    !GIT_REPO_PATH!
 echo 本地分支：    main
 echo 远程仓库：    origin
 echo 目标分支：    main
-echo 推送状态：    %errorlevel%
+echo 推送状态：    失败或未完成
 echo 时间戳：      %date% %time%
 echo ========================================
 

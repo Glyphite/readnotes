@@ -3,7 +3,7 @@ chcp 65001 >nul
 setlocal enabledelayedexpansion
 
 echo ========================================
-echo         Git一键同步工具 v1.1
+echo         Git一键同步工具 v1.1 (已适配github远程)
 echo ========================================
 echo.
 
@@ -99,21 +99,21 @@ if "!has_changes!"=="1" (
     echo [步骤3] 跳过提交步骤（无更改）
 )
 
-REM 步骤4：推送到远程仓库
+REM 步骤4：推送到远程仓库 (修改点：将 origin 改为 github)
 echo [步骤4] 推送到远程仓库...
 echo   正在推送到远程仓库 (main 分支)...
 
-REM 尝试获取远程分支信息
-git ls-remote --exit-code origin main >nul 2>&1
+REM 尝试获取远程分支信息 (修改点)
+git ls-remote --exit-code github main >nul 2>&1
 if !errorlevel! equ 0 (
-    echo   检测到 origin 远程仓库，开始推送...
+    echo   检测到 github 远程仓库，开始推送...
     
     REM 显示推送前最后提交
     echo   最后提交信息：
     git log -1 --oneline
     
-    REM 执行推送
-    git push origin main
+    REM 执行推送 (修改点)
+    git push github main
     
     if !errorlevel! equ 0 (
         echo   ✓ 推送成功！
@@ -132,7 +132,7 @@ if !errorlevel! equ 0 (
         set /p force_push=
         if /i "!force_push!"=="Y" (
             echo   执行强制推送...
-            git push -f origin main
+            git push -f github main
             if !errorlevel! equ 0 (
                 echo   ✓ 强制推送成功！
                 echo.
@@ -146,7 +146,7 @@ if !errorlevel! equ 0 (
         )
     )
 ) else (
-    echo   ✗ 未找到 origin 远程仓库或 main 分支
+    echo   ✗ 未找到 github 远程仓库或 main 分支
     echo   请检查远程仓库配置：
     git remote -v
     echo.
@@ -156,7 +156,7 @@ if !errorlevel! equ 0 (
         echo   请输入远程仓库URL（例如：https://github.com/用户名/仓库名.git）：
         set /p repo_url=
         if not "!repo_url!"=="" (
-            git remote add origin "!repo_url!"
+            git remote add github "!repo_url!"  (修改点)
             if !errorlevel! equ 0 (
                 echo   远程仓库添加成功！
                 echo   请重新运行此脚本。
@@ -171,7 +171,7 @@ echo [步骤5] 同步状态摘要
 echo ========================================
 echo 仓库路径：    !GIT_REPO_PATH!
 echo 本地分支：    main
-echo 远程仓库：    origin
+echo 远程仓库：    github  (修改点)
 echo 目标分支：    main
 echo 推送状态：    失败或未完成
 echo 时间戳：      %date% %time%

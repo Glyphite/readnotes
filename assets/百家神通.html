@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>《百家神通》书评 - ReadNotes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="百家神通：从鸡兔同笼开始">
+  <link rel="stylesheet" href="../source/style.css">
+<script src="../source/marked.min.js"></script>
+</head>
+<body>
+  <div id="container">
+    <nav id="nav">
+        <a href="../index.html" class="title"><img src="../source/logo.svg" alt="Logo" /></a>
+        <div class="menu">
+          <a href="../index.html" class="nav-menu">主页</a>
+          <a href="../archive.html" class="nav-menu">档案</a>
+          <a href="../about.html" class="nav-menu">关于</a>
+        </div>
+    </nav>
+    <div id="main">
+      <div class="project-card">
+        <div class="ctnWrap">
+          <div id="md-content"></div>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+      <span class="copyright">All rights reserved @Glyphite</span>
+    </footer>
+    <script>
+      const mdText = `# 百家神通：从鸡兔同笼开始
+
+★★☆☆☆
+
+设定和剧情都有很大问题，作者感觉有点搞不清自己在写什么，一会要搞革命一会和老婆玩情深深雨蒙蒙，隔七八章主角就得证明一下自己对老婆不离不弃，一证明就是一整张，给我看yue了。
+
+<div style="text-align:right;">昼行灯 写于2025年1月20日</div>`;
+      document.getElementById('md-content').innerHTML = marked.parse(mdText);
+    </script>
+  </div>
+</body>
+</html>

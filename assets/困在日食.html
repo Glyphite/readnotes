@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>《困在日食那一天》书评 - ReadNotes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="困在日食那一天">
+  <link rel="stylesheet" href="../source/style.css">
+<script src="../source/marked.min.js"></script>
+</head>
+<body>
+  <div id="container">
+    <nav id="nav">
+        <a href="../index.html" class="title"><img src="../source/logo.svg" alt="Logo" /></a>
+        <div class="menu">
+          <a href="../index.html" class="nav-menu">主页</a>
+          <a href="../archive.html" class="nav-menu">档案</a>
+          <a href="../about.html" class="nav-menu">关于</a>
+        </div>
+    </nav>
+    <div id="main">
+      <div class="project-card">
+        <div class="ctnWrap">
+          <div id="md-content"></div>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+      <span class="copyright">All rights reserved @Glyphite</span>
+    </footer>
+    <script>
+      const mdText = `# 困在日食那一天
+
+★★★☆☆
+
+《困在日食那一天》主线是主角濒死，但是意外发现能够根据自己的濒死时间回到十年前来改变过去，以获得抢救机会。到105章都很精彩，然后就完全和标题没关系了。主角得救了，不循环了。写的东一榔头西一棒槌，作者感觉脑子里是有个完整设定的，但是他没写出来，主角改变了什么也不讲，主角掌握了什么做了什么也不讲，直接按照假设读者知道的方式写了。莫名其妙时不时蹦出来一个人说以前啥啥啥认识。
+
+<div style="text-align:right;">昼行灯 写于2023年11月15日</div>`;
+      document.getElementById('md-content').innerHTML = marked.parse(mdText);
+    </script>
+  </div>
+</body>
+</html>

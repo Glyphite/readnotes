@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>《北齐怪谈》书评 - ReadNotes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="北齐怪谈">
+  <link rel="stylesheet" href="../source/style.css">
+<script src="../source/marked.min.js"></script>
+</head>
+<body>
+  <div id="container">
+    <nav id="nav">
+        <a href="../index.html" class="title"><img src="../source/logo.svg" alt="Logo" /></a>
+        <div class="menu">
+          <a href="../index.html" class="nav-menu">主页</a>
+          <a href="../archive.html" class="nav-menu">档案</a>
+          <a href="../about.html" class="nav-menu">关于</a>
+        </div>
+    </nav>
+    <div id="main">
+      <div class="project-card">
+        <div class="ctnWrap">
+          <div id="md-content"></div>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+      <span class="copyright">All rights reserved @Glyphite</span>
+    </footer>
+    <script>
+      const mdText = `# 北齐怪谈
+
+★★★★★
+
+这本书我很推荐。一开始以为是灵异那类的，还想着古代怪谈灵异有点意思，点进去看了才发现是历史文。不过写得很好，非常好，整体还是那套建功立业，天下一统的线路，但角色和剧情都很生动，作者考据也很到位，如果喜欢历史文的话很推荐。
+
+<div style="text-align:right;">昼行灯 写于2025年3月27日</div>`;
+      document.getElementById('md-content').innerHTML = marked.parse(mdText);
+    </script>
+  </div>
+</body>
+</html>

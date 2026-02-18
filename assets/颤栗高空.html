@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>《颤栗高空》书评 - ReadNotes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="颤栗高空">
+  <link rel="stylesheet" href="../source/style.css">
+<script src="../source/marked.min.js"></script>
+</head>
+<body>
+  <div id="container">
+    <nav id="nav">
+        <a href="../index.html" class="title"><img src="../source/logo.svg" alt="Logo" /></a>
+        <div class="menu">
+          <a href="../index.html" class="nav-menu">主页</a>
+          <a href="../archive.html" class="nav-menu">档案</a>
+          <a href="../about.html" class="nav-menu">关于</a>
+        </div>
+    </nav>
+    <div id="main">
+      <div class="project-card">
+        <div class="ctnWrap">
+          <div id="md-content"></div>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+      <span class="copyright">All rights reserved @Glyphite</span>
+    </footer>
+    <script>
+      const mdText = `# 颤栗高空
+
+★☆☆☆☆
+
+《颤栗高空》。无限流小说，前面的剧本很有意思，但从时间囚笼这个副本之后开始走下坡路了。而且越往后越垃圾，每个副本都是虎头蛇尾的，开头设定的很有意思，结尾结束的莫名其妙。而且结局是梦结局……虽然也圆上了一些东西，但还是好傻逼。
+
+<div style="text-align:right;">昼行灯 写于2024年6月6日</div>`;
+      document.getElementById('md-content').innerHTML = marked.parse(mdText);
+    </script>
+  </div>
+</body>
+</html>

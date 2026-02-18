@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>《全球迷雾求生》书评 - ReadNotes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="全球迷雾求生">
+  <link rel="stylesheet" href="../source/style.css">
+<script src="../source/marked.min.js"></script>
+</head>
+<body>
+  <div id="container">
+    <nav id="nav">
+        <a href="../index.html" class="title"><img src="../source/logo.svg" alt="Logo" /></a>
+        <div class="menu">
+          <a href="../index.html" class="nav-menu">主页</a>
+          <a href="../archive.html" class="nav-menu">档案</a>
+          <a href="../about.html" class="nav-menu">关于</a>
+        </div>
+    </nav>
+    <div id="main">
+      <div class="project-card">
+        <div class="ctnWrap">
+          <div id="md-content"></div>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+      <span class="copyright">All rights reserved @Glyphite</span>
+    </footer>
+    <script>
+      const mdText = `# 全球迷雾求生
+
+★★★★☆
+
+《全球迷雾求生》很不错，作者第一本小说，但写的很有灵性，世界观参考了渎神，非常具有史诗感。虽然节奏有点问题，但整个故事写的很好，前期人类为了文明而抗争，每个人都在死亡前将自己的遗产交给其他人，让其他人带着“自己”继续前行。后期为了夺回命运而对抗，都是很让我印象深刻的点。
+
+<div style="text-align:right;">昼行灯 写于2024年9月9日</div>`;
+      document.getElementById('md-content').innerHTML = marked.parse(mdText);
+    </script>
+  </div>
+</body>
+</html>

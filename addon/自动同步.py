@@ -1,96 +1,152 @@
 import re
 import markdown
 from bs4 import BeautifulSoup
+import glob
+import os
 
-# 读取post1.html
-with open('post1.html', 'r', encoding='utf-8') as f:
-    html = f.read()
+# 1. 获取assets中的所有HTML文件，确定需要处理的目标
+posts = glob.glob('./assets/*.html')
+post_data = {}
 
-# 提取mdText
-soup = BeautifulSoup(html, 'html.parser')
-script = soup.find('script', string=lambda text: text and 'const mdText' in text)
-script_text = script.get_text()
-md_text = re.search(r'const mdText = `(.*?)`;', script_text, re.DOTALL).group(1)
+# 2. 处理每个post文件：提取内容、替换日期格式、更新文件
+for post_file in posts:
+    # 读取post文件
+    with open(post_file, 'r', encoding='utf-8') as f:
+        html = f.read()
 
-# 替换日期格式
-match = re.search(r'写于(\d+\.\d+\.\d+)</div>', md_text)
-if match:
-    date_str = match.group(1)
-    if date_str.count('.') == 2:
-        parts = date_str.split('.')
-        new_date = f"{parts[0]}年{parts[1]}月{parts[2]}日"
-        md_text = md_text.replace(date_str, new_date)
+    # 提取mdText
+    soup = BeautifulSoup(html, 'html.parser')
+    script = soup.find('script', string=lambda text: text and 'const mdText' in text)
+    script_text = script.get_text()
+    md_text = re.search(r'const mdText = `(.*?)`;', script_text, re.DOTALL).group(1)
 
-# 更新post1.html
-with open('post1.html', 'r', encoding='utf-8') as f:
-    post_html = f.read()
-post_html = re.sub(r'(const mdText = `).*?(`;)', f'\\1{md_text}\\2', post_html, flags=re.DOTALL)
-with open('post1.html', 'w', encoding='utf-8') as f:
-    f.write(post_html)
+    # 将日期从yyyy.mm.dd改为yyyy年mm月dd日格式
+    match = re.search(r'写于(\d+\.\d+\.\d+)</div>', md_text)
+    if match:
+        date_str = match.group(1)
+        if date_str.count('.') == 2:
+            parts = date_str.split('.')
+            new_date = f"{parts[0]}年{parts[1]}月{parts[2]}日"
+            md_text = md_text.replace(date_str, new_date)
 
-# 解析markdown
-md = markdown.Markdown()
-html_content = md.convert(md_text)
+    # 更新post文件
+    post_html = re.sub(r'(const mdText = `).*?(`;)', f'\\1{md_text}\\2', html, flags=re.DOTALL)
+    with open(post_file, 'w', encoding='utf-8') as f:
+        f.write(post_html)
 
-# 提取h1, p (subtitle), p (content)
-soup_md = BeautifulSoup(html_content, 'html.parser')
-h1 = soup_md.find('h1').get_text()
-p_sub = soup_md.find('p').get_text()  # 副标题
-p_content = soup_md.find_all('p')[1].get_text()  # 内容开头
+    # 解析markdown，提取关键字
+    md = markdown.Markdown()
+    html_content = md.convert(md_text)
+    soup_md = BeautifulSoup(html_content, 'html.parser')
+    h1 = soup_md.find('h1').get_text()
+    p_elements = soup_md.find_all('p')
+    p_sub = p_elements[0].get_text() if p_elements else ''
+    p_desc = p_elements[1].get_text() if len(p_elements) > 1 else ''
+    
+    # 以年月日格式进行关键字匹配
+    date_match = re.search(r'写于(\d{4})年(\d{1,2})月(\d{1,2})日', md_text)
+    if date_match:
+        year, month, day = date_match.groups()
+        mm_dd = f"{int(month):02d}-{int(day):02d}"
+    else:
+        mm_dd = "02-17"
 
-# 提取作者日期
-author_date_div = soup_md.find('div', style=lambda value: value and 'text-align:right' in value)
-if author_date_div:
-    author_date = author_date_div.get_text()
-    author_date = author_date.replace("2026.2.17", "2026年2月17日")
-else:
-    author_date = "2026年2月17日"  # 默认
+    filename = os.path.basename(post_file)
+    href = f'assets/{filename}'
+    post_data[href] = {'h1': h1, 'p_sub': p_sub, 'p_desc': p_desc, 'date_str': f"昼行灯 写于{year}年{month}月{day}日", 'mm_dd': mm_dd}
 
-# 更新index.html
-with open('index.html', 'r', encoding='utf-8') as f:
+# 3. 收集post数据用于更新索引
+
+# 4. 更新index.html
+with open('./index.html', 'r', encoding='utf-8') as f:
     index_html = f.read()
+soup_index = BeautifulSoup(index_html, 'html.parser')
+project_cards = soup_index.find_all('div', class_='project-card')
+for card in project_cards:
+    card_a = card.find('a', class_='title')
+    if card_a:
+        card_href = card_a.get('href', '')
+        if card_href in post_data:
+            data = post_data[card_href]
+            card_a.string = data['h1']
+            desc_section = card.find('section', class_='desc')
+            if desc_section:
+                desc_section.string = data['p_desc']
+            sub_p = card.find('p', class_='subtitle')
+            if sub_p:
+                sub_p.string = data['p_sub']
+            sub_sub = card.find('p', class_='sub')
+            if sub_sub:
+                sub_sub.string = data['date_str']
 
-# 替换.title
-index_html = re.sub(r'(<a href="post1.html" class="title">).*?(</a>)', f'\\1{h1}\\2', index_html)
+# 添加新卡片
+for href, data in post_data.items():
+    found = any(card.find('a', href=href) for card in project_cards)
+    if not found:
+        main = soup_index.find('div', id='main')
+        if main:
+            footer = soup_index.find('footer', id='footer')
+            new_card = soup_index.new_tag('div', attrs={'class': 'project-card'})
+            img_src = href.replace('.html', '.webp')
+            img = soup_index.new_tag('img', src=img_src, alt='项目图片')
+            new_card.append(img)
+            ctnwrap = soup_index.new_tag('div', attrs={'class': 'ctnWrap'})
+            title_a = soup_index.new_tag('a', href=href, attrs={'class': 'title'})
+            title_a.string = data['h1']
+            ctnwrap.append(title_a)
+            desc_section = soup_index.new_tag('section', attrs={'class': 'desc'})
+            desc_section.string = data['p_desc']
+            ctnwrap.append(desc_section)
+            sub_row = soup_index.new_tag('div', attrs={'class': 'sub-row'})
+            sub_p = soup_index.new_tag('p', attrs={'class': 'subtitle'})
+            sub_p.string = data['p_sub']
+            sub_row.append(sub_p)
+            sub_sub = soup_index.new_tag('p', attrs={'class': 'sub'})
+            sub_sub.string = data['date_str']
+            sub_row.append(sub_sub)
+            ctnwrap.append(sub_row)
+            new_card.append(ctnwrap)
+            if footer:
+                footer.insert_before(new_card)
+            else:
+                main.append(new_card)
 
-# 替换.subtitle
-index_html = re.sub(r'(<p class="subtitle">).*?(</p>)', f'\\1{p_sub}\\2', index_html)
-
-# 替换.desc
-index_html = re.sub(r'(<section class="desc">).*?(</section>)', f'\\1{p_content}\\2', index_html)
-
-# 替换.sub
-index_html = re.sub(r'(<p class="sub">).*?(</p>)', f'\\1{author_date}\\2', index_html)
-
-with open('index.html', 'w', encoding='utf-8') as f:
+index_html = str(soup_index)
+with open('./index.html', 'w', encoding='utf-8') as f:
     f.write(index_html)
 
-# 更新archive.html
-with open('archive.html', 'r', encoding='utf-8') as f:
+# 5. 更新archive.html
+with open('./archive.html', 'r', encoding='utf-8') as f:
     archive_html = f.read()
-
-# 提取MM-DD
-date_match = re.search(r'写于(\d{4})年(\d{1,2})月(\d{1,2})日', author_date)
-if date_match:
-    year, month, day = date_match.groups()
-    mm_dd = f"{int(month):02d}-{int(day):02d}"
-else:
-    mm_dd = "02-17"
-
-# 更新archive.html
 soup_archive = BeautifulSoup(archive_html, 'html.parser')
-a_tag = soup_archive.find('a', href='post1.html')
-if a_tag:
-    a_tag.string = h1
-span_tag = soup_archive.find('span', class_='archive-date')
-if span_tag:
-    span_tag.string = mm_dd
-else:
-    if a_tag:
-        new_span = soup_archive.new_tag('span', class_='archive-date')
-        new_span.string = mm_dd
-        a_tag.insert_after(new_span)
-archive_html = str(soup_archive)
+ul = soup_archive.find('ul', class_='archive-posts')
+existing_hrefs = set()
+if ul:
+    for li in ul.find_all('li'):
+        a = li.find('a', attrs={'class': 'archive-title'})
+        if a:
+            a_href = a.get('href', '')
+            existing_hrefs.add(a_href)
+            if a_href in post_data:
+                data = post_data[a_href]
+                a.string = data['h1']
+                span_date = li.find('span', attrs={'class': 'archive-date'})
+                if span_date:
+                    span_date.string = data['p_sub']
 
-with open('archive.html', 'w', encoding='utf-8') as f:
+# 添加新条目
+for href, data in post_data.items():
+    if href not in existing_hrefs:
+        if ul:
+            new_li = soup_archive.new_tag('li')
+            new_a = soup_archive.new_tag('a', href=href, attrs={'class': 'archive-title'})
+            new_a.string = data['h1']
+            new_li.append(new_a)
+            new_span = soup_archive.new_tag('span', attrs={'class': 'archive-date'})
+            new_span.string = data['p_sub']
+            new_li.append(new_span)
+            ul.append(new_li)
+
+archive_html = str(soup_archive)
+with open('./archive.html', 'w', encoding='utf-8') as f:
     f.write(archive_html)

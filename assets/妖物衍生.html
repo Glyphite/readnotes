@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>《我的妖物衍生技才是正统》书评 - ReadNotes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="我的妖物衍生技才是正统">
+  <link rel="stylesheet" href="../source/style.css">
+<script src="../source/marked.min.js"></script>
+</head>
+<body>
+  <div id="container">
+    <nav id="nav">
+        <a href="../index.html" class="title"><img src="../source/logo.svg" alt="Logo" /></a>
+        <div class="menu">
+          <a href="../index.html" class="nav-menu">主页</a>
+          <a href="../archive.html" class="nav-menu">档案</a>
+          <a href="../about.html" class="nav-menu">关于</a>
+        </div>
+    </nav>
+    <div id="main">
+      <div class="project-card">
+        <div class="ctnWrap">
+          <div id="md-content"></div>
+        </div>
+      </div>
+    </div>
+    <footer id="footer">
+      <span class="copyright">All rights reserved @Glyphite</span>
+    </footer>
+    <script>
+      const mdText = `# 我的妖物衍生技才是正统
+
+★★★☆☆
+
+《我的妖物衍生技才是正统》，棉衣卫的作品，老一套风格，依旧是主角利用各种无厘头规则技折腾世界的剧情，不过没有万界好笑，也算能看。不过这本书主角比前几本感觉要没节操的多，后面发现主角居然有底线的时候我还挺震惊的。缺点的话，就和作者自己说的一样，完全不会写配角，整本书就主角在死命折腾，其他人一个都没记住。话说我才发现他叫棉衣卫不叫锦衣卫。
+
+<div style="text-align:right;">昼行灯 写于2025年5月29日</div>`;
+      document.getElementById('md-content').innerHTML = marked.parse(mdText);
+    </script>
+  </div>
+</body>
+</html>

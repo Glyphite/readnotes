@@ -1,5 +1,6 @@
 # 整理天赋.md文件的脚本
-# 将名称相同的行移动到一起，使它们紧邻
+# 将名称相同的行移动到一起，使它们紧邻，支持部分索引匹配
+# 删除完全重复的行
 
 import os
 
@@ -21,20 +22,26 @@ def sort_traits(file_path):
             # 表行
             trait_lines.append(line.rstrip('\n'))
 
-    # 按名称分组
-    trait_dict = {}
+    # 按名称分组，支持部分匹配
+    traits = {}  # key: root_name, value: list of lines
     for line in trait_lines:
         parts = line.split('|')
         if len(parts) >= 3:
             name = parts[1].strip()
-            if name not in trait_dict:
-                trait_dict[name] = []
-            trait_dict[name].append(line)
+            matched = False
+            for key in list(traits.keys()):
+                if key in name or name in key:
+                    traits[key].append(line)
+                    matched = True
+                    break
+            if not matched:
+                traits[name] = [line]
 
-    # 生成排序后的行
+    # 生成排序后的行，去重
     sorted_lines = []
-    for name in sorted(trait_dict.keys()):  # 按名称排序
-        sorted_lines.extend(trait_dict[name])
+    for key in sorted(traits.keys()):  # 按根名称排序
+        unique_lines = list(dict.fromkeys(traits[key]))  # 去重，保留顺序
+        sorted_lines.extend(unique_lines)
 
     # 写入文件
     with open(file_path, 'w', encoding='utf-8') as f:

@@ -230,7 +230,7 @@ a:hover {
 }
 
 #md-content table td:nth-child(1) {
-	text-align: center
+	text-align: left
 }
 
 #md-content table td:nth-child(2) {

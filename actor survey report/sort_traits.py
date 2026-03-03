@@ -8,27 +8,20 @@ def sort_traits(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
-    # 解析表格行，忽略表头和分隔符
+    # 收集所有表行，跳过表头和分隔符
     trait_lines = []
-    header_lines = []
-    in_table = False
+    header_line = "| 名称 | 价格 | 描述 |"
+    separator_line = "|------|------|------|"
 
     for line in lines:
-        line = line.rstrip()  # 去除行尾换行
-        if line.startswith('|') and '---' not in line:  # 表格行
-            if not in_table:
-                header_lines.append(line)
-                in_table = True
-            else:
-                trait_lines.append(line)
-        else:
-            if in_table:
-                # 表结束
-                break
-            else:
-                header_lines.append(line)
+        stripped = line.strip()
+        if stripped == header_line or stripped == separator_line:
+            continue  # 跳过表头和分隔符
+        if stripped.startswith('|') and stripped.endswith('|'):
+            # 表行
+            trait_lines.append(line.rstrip('\n'))
 
-    # 提取名称（第一列）
+    # 按名称分组
     trait_dict = {}
     for line in trait_lines:
         parts = line.split('|')
@@ -38,17 +31,15 @@ def sort_traits(file_path):
                 trait_dict[name] = []
             trait_dict[name].append(line)
 
-    # 重新排列行，使相同名称的行紧邻
+    # 生成排序后的行
     sorted_lines = []
     for name in sorted(trait_dict.keys()):  # 按名称排序
         sorted_lines.extend(trait_dict[name])
 
     # 写入文件
     with open(file_path, 'w', encoding='utf-8') as f:
-        # 写入非表格部分（如果有）
-        for line in header_lines:
-            f.write(line + '\n')
-        # 写入排序后的表格行
+        f.write(header_line + '\n')
+        f.write(separator_line + '\n')
         for line in sorted_lines:
             f.write(line + '\n')
 

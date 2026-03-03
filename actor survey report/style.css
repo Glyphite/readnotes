@@ -241,14 +241,6 @@ a:hover {
 	text-align: right;
 }
 
-#md-content table td:nth-child(2) {
-	text-align: left
-}
-
-#md-content table th:empty {
-	display: none
-}
-
 .hanging-table {
 	display: table;
 	width: 100%;

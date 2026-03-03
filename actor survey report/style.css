@@ -229,8 +229,16 @@ a:hover {
 	display: none
 }
 
-#md-content table td:nth-child(1) {
-	text-align: left
+#md-content table th[align="left"], #md-content table td[align="left"] {
+	text-align: left;
+}
+
+#md-content table th[align="center"], #md-content table td[align="center"] {
+	text-align: center;
+}
+
+#md-content table th[align="right"], #md-content table td[align="right"] {
+	text-align: right;
 }
 
 #md-content table td:nth-child(2) {

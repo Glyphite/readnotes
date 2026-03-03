@@ -218,8 +218,7 @@ a:hover {
 	border-top: none;
 	border-left: none;
 	border-right: none;
-	padding: 8px 12px;
-	white-space: nowrap;
+	padding: 8px 12px
 }
 
 #md-content table th {

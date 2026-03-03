@@ -8,7 +8,7 @@ echo ========================================
 echo.
 
 REM 配置您的Git仓库路径
-set "GIT_REPO_PATH=C:\Users\Administrator\Documents\glyphite-message"
+set "GIT_REPO_PATH=C:\Users\Administrator\Documents\ReadNotes"
 
 REM 检查配置的路径是否存在
 if not exist "!GIT_REPO_PATH!" (

@@ -230,6 +230,17 @@ a:hover {
 	display: none
 }
 
+#md-content table td:nth-child(1) {
+	text-align: center
+}
+
+#md-content table td:nth-child(2) {
+	text-align: left
+}
+
+#md-content table th:empty {
+	display: none
+}
 
 .hanging-table {
 	display: table;

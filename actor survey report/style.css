@@ -211,14 +211,15 @@ a:hover {
 	margin: 0 auto 1em;
 	border-top: 3px solid #333;
 	border-bottom: 3px solid #333;
-	max-width: 100%;
+	width: 100%;
 }
 
 #md-content table th, #md-content table td {
 	border-top: none;
 	border-left: none;
 	border-right: none;
-	padding: 8px 12px
+	padding: 8px 12px;
+	white-space: nowrap;
 }
 
 #md-content table th {
@@ -229,17 +230,6 @@ a:hover {
 	display: none
 }
 
-#md-content table td:nth-child(1) {
-	text-align: center
-}
-
-#md-content table td:nth-child(2) {
-	text-align: left
-}
-
-#md-content table th:empty {
-	display: none
-}
 
 .hanging-table {
 	display: table;

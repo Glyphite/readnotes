@@ -3,7 +3,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:Arial;overflow-x:hidden;position:relative;min-height:100vh}.container{position:relative;z-index:20;max-width:1400px;margin:0 auto;padding:2rem}header{text-align:center;padding:2rem 0;margin-bottom:2rem}h1{font-size:3.5rem;color:#f00;text-transform:uppercase;letter-spacing:6px;text-shadow:0 0 20px rgba(255,0,0,0.7);margin-bottom:.5rem}.subtitle{color:#f99;letter-spacing:2px}.main-content{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem}@media(max-width:1100px){.main-content{grid-template-columns:1fr}}.card{background:rgba(255,0,0,0.15);backdrop-filter:blur(10px);border:2px solid rgba(255,100,100,0.4);border-radius:8px;padding:2rem;transition:all .3s}.card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(255,0,0,0.4)}.card h2{color:#f00;margin-bottom:1.5rem;border-left:4px solid #f00;padding-left:1rem}.form-group{margin-bottom:24px;position:relative}.form-group label{display:block;font-weight:normal;margin-bottom:8px;color:#CCCCCC;position:absolute;left:12px;top:50%;transform:translateY(-50%);transition:all 0.3s ease;pointer-events:none;background-color:#000000;padding:0 4px;font-size:16px}.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px;border:1px solid #E60000;background-color:#000000;color:#FFFFFF;font-size:16px;box-sizing:border-box;transition:border-color 0.3s ease}.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#FFFFFF}.form-group input:focus ~ label,.form-group input:not(:placeholder-shown) ~ label,.form-group select:focus ~ label,.form-group select:valid ~ label,.form-group textarea:focus ~ label,.form-group textarea:not(:placeholder-shown) ~ label{top:0;left:8px;transform:translateY(-50%);font-size:12px;color:#FFFFFF;background-color:#000000;padding:0 4px}.form-group textarea{height:96px;resize:vertical}.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23E60000' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:40px}.attribute-row{display:flex;align-items:center;margin-bottom:1.5rem;background:rgba(30,0,0,0.5);padding:1.2rem;border-radius:6px}.attribute-name{flex:0 0 100px;color:#f99;font-weight:bold}.attribute-controls{display:flex;align-items:center;flex:1;justify-content:center}.value-display{min-width:60px;text-align:center;font-size:2rem;font-weight:bold;color:#f00;margin:0 1.5rem}.btn{background:rgba(255,0,0,0.7);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}.btn:hover{background:rgba(255,50,50,0.9);transform:scale(1.1)}.skills-table{width:100%;border-collapse:collapse;margin-top:1rem}.skills-table th{background:rgba(255,0,0,0.3);color:#fcc;padding:.8rem;text-align:center;border:1px solid rgba(255,100,100,0.5)}.skills-table td{padding:.8rem;text-align:center;border:1px solid rgba(255,100,100,0.3);background:rgba(20,0,0,0.3)}.skill-input{width:100%;padding:.4rem;background:rgba(10,0,0,0.7);border:1px solid rgba(255,100,100,0.5);border-radius:3px;color:#fff;text-align:center}.action-buttons{display:flex;justify-content:center;gap:1.5rem;margin-top:2rem}.action-btn{padding:.8rem 2rem;background:rgba(255,0,0,0.7);color:#fff;border:none;border-radius:4px;cursor:pointer;transition:all .3s}.action-btn:hover{background:rgba(255,50,50,0.9)}.action-btn.secondary{background:rgba(100,0,0,0.7)}footer{text-align:center;padding:2rem 0;color:#c88}#three-canvas,#p5-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:auto}#p5-canvas{z-index:5}@media(max-width:768px){h1{font-size:2.5rem}.container{padding:1rem}.main-content{grid-template-columns:1fr}.action-buttons{flex-direction:column}}</style></head>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:Arial;overflow-x:hidden;position:relative;min-height:100vh}.container{position:relative;z-index:20;max-width:1400px;margin:0 auto;padding:2rem}header{text-align:center;padding:2rem 0;margin-bottom:2rem}h1{font-size:3.5rem;color:#f00;text-transform:uppercase;letter-spacing:6px;text-shadow:0 0 20px rgba(255,0,0,0.7);margin-bottom:.5rem}.subtitle{color:#f99;letter-spacing:2px}.main-content{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem}@media(max-width:1100px){.main-content{grid-template-columns:1fr}}.card{background:rgba(255,0,0,0.15);backdrop-filter:blur(10px);border:2px solid rgba(255,100,100,0.4);border-radius:8px;padding:2rem;transition:all .3s}.card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(255,0,0,0.4)}.card h2{color:#f00;margin-bottom:1.5rem;border-left:4px solid #f00;padding-left:1rem}.form-group{margin-bottom:1.5rem;position:relative}.form-group label{display:block;color:#fcc;margin-bottom:.5rem;position:absolute;left:1rem;top:50%;transform:translateY(-50%);transition:all .3s ease;pointer-events:none;background-color:rgba(255,0,0,0.15);padding:0 .5rem;font-size:1rem;z-index:1}.form-group input:focus~label,.form-group input:not(:placeholder-shown)~label,.form-group select:focus~label,.form-group select:valid~label,.form-group textarea:focus~label,.form-group textarea:not(:placeholder-shown)~label{top:0;left:.5rem;transform:translateY(-50%);font-size:.875rem;color:#f00;background-color:rgba(255,0,0,0.15);padding:0 .5rem}.form-control{width:100%;padding:1rem;background:rgba(20,0,0,0.7);border:1px solid rgba(255,100,100,0.5);border-radius:4px;color:#fff;transition:all .3s}.form-control:focus{outline:none;border-color:#f00;box-shadow:0 0 0 2px rgba(255,0,0,0.2)}textarea.form-control{min-height:100px;resize:vertical}.attribute-row{display:flex;align-items:center;margin-bottom:1.5rem;background:rgba(30,0,0,0.5);padding:1.2rem;border-radius:6px}.attribute-name{flex:0 0 100px;color:#f99;font-weight:bold}.attribute-controls{display:flex;align-items:center;flex:1;justify-content:center}.value-display{min-width:60px;text-align:center;font-size:2rem;font-weight:bold;color:#f00;margin:0 1.5rem}.btn{background:rgba(255,0,0,0.7);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}.btn:hover{background:rgba(255,50,50,0.9);transform:scale(1.1)}.skills-table{width:100%;border-collapse:collapse;margin-top:1rem}.skills-table th{background:rgba(255,0,0,0.3);color:#fcc;padding:.8rem;text-align:center;border:1px solid rgba(255,100,100,0.5)}.skills-table td{padding:.8rem;text-align:center;border:1px solid rgba(255,100,100,0.3);background:rgba(20,0,0,0.3)}.skill-input{width:100%;padding:.4rem;background:rgba(10,0,0,0.7);border:1px solid rgba(255,100,100,0.5);border-radius:3px;color:#fff;text-align:center}.action-buttons{display:flex;justify-content:center;gap:1.5rem;margin-top:2rem}.action-btn{padding:.8rem 2rem;background:rgba(255,0,0,0.7);color:#fff;border:none;border-radius:4px;cursor:pointer;transition:all .3s}.action-btn:hover{background:rgba(255,50,50,0.9)}.action-btn.secondary{background:rgba(100,0,0,0.7)}footer{text-align:center;padding:2rem 0;color:#c88}#three-canvas,#p5-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:auto}#p5-canvas{z-index:5}@media(max-width:768px){h1{font-size:2.5rem}.container{padding:1rem}.main-content{grid-template-columns:1fr}.action-buttons{flex-direction:column}}</style></head>
 <body>
 <div id="three-canvas"></div><div id="p5-canvas"></div>
 <div class="container"><header><h1>角色卡创建器</h1><p class="subtitle">定义你的角色 | 红色主题</p></header>
@@ -11,41 +11,42 @@
 <div class="card"><h2>基础设定</h2>
 <div class="form-group">
 <label for="name">角色姓名</label>
-<input type="text" id="name" placeholder=" " required>
+<input type="text" id="name" class="form-control" placeholder=" ">
 </div>
 <div class="form-group">
 <label for="age">年龄</label>
-<input type="number" id="age" placeholder=" " required>
+<input type="number" id="age" class="form-control" placeholder=" ">
 </div>
 <div class="form-group">
 <label for="gender">性别</label>
-<select id="gender" required>
-<option value="" disabled selected hidden></option>
-<option value="男性">男性</option>
-<option value="女性">女性</option>
-<option value="其他">其他</option>
+<select id="gender" class="form-control">
+<option value="" disabled selected hidden>请选择</option>
+<option>男性</option>
+<option>女性</option>
+<option>其他</option>
 </select>
+<label for="gender">性别</label>
 </div>
 <div class="form-group">
 <label for="nationality">国籍</label>
-<input type="text" id="nationality" placeholder=" " required>
+<input type="text" id="nationality" class="form-control" placeholder=" ">
 </div>
 <div class="form-group">
 <label for="race">人种/种族</label>
-<input type="text" id="race" placeholder=" " required>
+<input type="text" id="race" class="form-control" placeholder=" ">
 </div>
 <div style="color:#f66;margin:1.5rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,100,100,0.3)">背景与信念</div>
 <div class="form-group">
 <label for="background">背景经历</label>
-<textarea id="background" placeholder=" " required></textarea>
+<textarea id="background" class="form-control" placeholder=" "></textarea>
 </div>
 <div class="form-group">
 <label for="creed">信条</label>
-<input type="text" id="creed" placeholder=" " required>
+<input type="text" id="creed" class="form-control" placeholder=" ">
 </div>
 <div class="form-group">
 <label for="desire">欲望</label>
-<input type="text" id="desire" placeholder=" " required>
+<input type="text" id="desire" class="form-control" placeholder=" ">
 </div></div>
 <div class="card"><h2>角色属性</h2>
 <div class="attribute-row"><div class="attribute-name">魂</div><div class="attribute-controls">

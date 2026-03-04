@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>角色卡创建器</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:Arial;overflow-x:hidden;position:relative;min-height:100vh}.container{position:relative;z-index:20;max-width:1400px;margin:0 auto;padding:2rem}header{text-align:center;padding:2rem 0;margin-bottom:2rem}h1{font-size:3.5rem;color:#f00;text-transform:uppercase;letter-spacing:6px;text-shadow:0 0 20px rgba(255,0,0,0.7);margin-bottom:.5rem}.subtitle{color:#f99;letter-spacing:2px}.main-content{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem}@media(max-width:1100px){.main-content{grid-template-columns:1fr}}.card{background:rgba(255,0,0,0.15);backdrop-filter:blur(10px);border:2px solid rgba(255,100,100,0.4);border-radius:8px;padding:2rem;transition:all .3s}.card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(255,0,0,0.4)}.card h2{color:#f00;margin-bottom:1.5rem;border-left:4px solid #f00;padding-left:1rem}.form-group{margin-bottom:24px;position:relative}.form-group label{display:block;font-weight:normal;margin-bottom:8px;color:#CCCCCC;position:absolute;left:12px;top:50%;transform:translateY(-50%);transition:all 0.3s ease;pointer-events:none;background-color:#000000;padding:0 4px;font-size:16px}.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px;border:1px solid #E60000;background-color:#000000;color:#FFFFFF;font-size:16px;box-sizing:border-box;transition:border-color 0.3s ease}.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:#FFFFFF}.form-group input:focus ~ label,.form-group input:not(:placeholder-shown) ~ label,.form-group select:focus ~ label,.form-group select:valid ~ label,.form-group textarea:focus ~ label,.form-group textarea:not(:placeholder-shown) ~ label{top:0;left:8px;transform:translateY(-50%);font-size:12px;color:#FFFFFF;background-color:#000000;padding:0 4px}.form-group textarea{height:96px;resize:vertical}.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23E60000' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:40px}.attribute-row{display:flex;align-items:center;margin-bottom:1.5rem;background:rgba(30,0,0,0.5);padding:1.2rem;border-radius:6px}.attribute-name{flex:0 0 100px;color:#f99;font-weight:bold}.attribute-controls{display:flex;align-items:center;flex:1;justify-content:center}.value-display{min-width:60px;text-align:center;font-size:2rem;font-weight:bold;color:#f00;margin:0 1.5rem}.btn{background:rgba(255,0,0,0.7);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}.btn:hover{background:rgba(255,50,50,0.9);transform:scale(1.1)}.skills-table{width:100%;border-collapse:collapse;margin-top:1rem}.skills-table th{background:rgba(255,0,0,0.3);color:#fcc;padding:.8rem;text-align:center;border:1px solid rgba(255,100,100,0.5)}.skills-table td{padding:.8rem;text-align:center;border:1px solid rgba(255,100,100,0.3);background:rgba(20,0,0,0.3)}.skill-input{width:100%;padding:.4rem;background:rgba(10,0,0,0.7);border:1px solid rgba(255,100,100,0.5);border-radius:3px;color:#fff;text-align:center}.action-buttons{display:flex;justify-content:center;gap:1.5rem;margin-top:2rem}.action-btn{padding:.8rem 2rem;background:rgba(255,0,0,0.7);color:#fff;border:none;border-radius:4px;cursor:pointer;transition:all .3s}.action-btn:hover{background:rgba(255,50,50,0.9)}.action-btn.secondary{background:rgba(100,0,0,0.7)}footer{text-align:center;padding:2rem 0;color:#c88}#three-canvas,#p5-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:auto}#p5-canvas{z-index:5}@media(max-width:768px){h1{font-size:2.5rem}.container{padding:1rem}.main-content{grid-template-columns:1fr}.action-buttons{flex-direction:column}}</style></head>
+<body>
+<div id="three-canvas"></div><div id="p5-canvas"></div>
+<div class="container"><header><h1>角色卡创建器</h1><p class="subtitle">定义你的角色 | 红色主题</p></header>
+<main><div class="main-content">
+<div class="card"><h2>基础设定</h2>
+<div class="form-group">
+<label for="name">角色姓名</label>
+<input type="text" id="name" placeholder=" " required>
+</div>
+<div class="form-group">
+<label for="age">年龄</label>
+<input type="number" id="age" placeholder=" " required>
+</div>
+<div class="form-group">
+<label for="gender">性别</label>
+<select id="gender" required>
+<option value="" disabled selected hidden></option>
+<option value="男性">男性</option>
+<option value="女性">女性</option>
+<option value="其他">其他</option>
+</select>
+</div>
+<div class="form-group">
+<label for="nationality">国籍</label>
+<input type="text" id="nationality" placeholder=" " required>
+</div>
+<div class="form-group">
+<label for="race">人种/种族</label>
+<input type="text" id="race" placeholder=" " required>
+</div>
+<div style="color:#f66;margin:1.5rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,100,100,0.3)">背景与信念</div>
+<div class="form-group">
+<label for="background">背景经历</label>
+<textarea id="background" placeholder=" " required></textarea>
+</div>
+<div class="form-group">
+<label for="creed">信条</label>
+<input type="text" id="creed" placeholder=" " required>
+</div>
+<div class="form-group">
+<label for="desire">欲望</label>
+<input type="text" id="desire" placeholder=" " required>
+</div></div>
+<div class="card"><h2>角色属性</h2>
+<div class="attribute-row"><div class="attribute-name">魂</div><div class="attribute-controls">
+<button class="btn" onclick="adjust('soul',-1)">-</button><div class="value-display" id="soulVal">5</div><button class="btn" onclick="adjust('soul',1)">+</button></div></div>
+<div class="attribute-row"><div class="attribute-name">魄</div><div class="attribute-controls">
+<button class="btn" onclick="adjust('body',-1)">-</button><div class="value-display" id="bodyVal">5</div><button class="btn" onclick="adjust('body',1)">+</button></div></div>
+<h2 style="margin-top:2.5rem">角色技能</h2>
+<table class="skills-table"><thead><tr><th>近战</th><th>远程</th><th>探索</th><th>交互</th><th>知识</th></tr></thead><tbody>
+<tr><td><input class="skill-input" value="0" data-name="斩击技法"></td><td><input class="skill-input" value="0" data-name="百步穿杨"></td><td><input class="skill-input" value="0" data-name="巧舌如簧"></td><td><input class="skill-input" value="0" data-name="妙手回春"></td><td><input class="skill-input" value="0" data-name="械理洞明"></td></tr>
+<tr><td><input class="skill-input" value="0" data-name="刺击技法"></td><td><input class="skill-input" value="0" data-name="枪火点射"></td><td><input class="skill-input" value="0" data-name="威压恫吓"></td><td><input class="skill-input" value="0" data-name="蛇行鳞潜"></td><td><input class="skill-input" value="0" data-name="博古通今"></td></tr>
+<tr><td><input class="skill-input" value="0" data-name="钝击技法"></td><td><input class="skill-input" value="0" data-name="弹雨倾泻"></td><td><input class="skill-input" value="0" data-name="明见万里"></td><td><input class="skill-input" value="0" data-name="鬼蜮伎俩"></td><td><input class="skill-input" value="0" data-name="金石药理"></td></tr>
+<tr><td><input class="skill-input" value="0" data-name="鞭击技法"></td><td><input class="skill-input" value="0" data-name="重炮轰鸣"></td><td><input class="skill-input" value="0" data-name="故纸寻踪"></td><td><input class="skill-input" value="0" data-name="机动驾驶"></td><td><input class="skill-input" value="0" data-name="万物生息"></td></tr>
+<tr><td><input class="skill-input" value="0" data-name="近身搏击"></td><td><input class="skill-input" value="0" data-name="奇械专精"></td><td><input class="skill-input" value="0" data-name="明心见性"></td><td><input class="skill-input" value="0" data-name="运动自如"></td><td><input class="skill-input" value="0" data-name="数据思维"></td></tr>
+</tbody></table>
+<div class="action-buttons"><button class="action-btn" onclick="save()">保存角色卡</button>
+<button class="action-btn secondary" onclick="reset()">重置表单</button><button class="action-btn secondary" onclick="exportData()">导出数据</button></div></div></div></main>
+<footer><p>© 2026 角色卡创建器 | 红色主题</p><p>数据保存在本地浏览器中，请及时导出保存</p></footer></div>
+<script>let scene,camera,renderer,controls,moon;function initThree(){scene=new THREE.Scene();scene.background=new THREE.Color(0x0a0005);camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);camera.position.z=5;renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});renderer.setSize(window.innerWidth,window.innerHeight);document.getElementById('three-canvas').appendChild(renderer.domElement);controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.minDistance=3;controls.maxDistance=15;scene.add(new THREE.AmbientLight(0x330000));let light=new THREE.DirectionalLight(0xffaa88,1.5);light.position.set(10,5,7);scene.add(light);let stars=new THREE.BufferGeometry();let pos=new Float32Array(3000 * 3);for(let i=0;i<9000;i+=3){let r=30+Math.random()*200;let t=Math.random()*Math.PI*2;let p=Math.acos((Math.random()*2)-1);pos[i]=r*Math.sin(p)*Math.cos(t);pos[i+1]=r*Math.sin(p)*Math.sin(t);pos[i+2]=r*Math.cos(p);}stars.setAttribute('position',new THREE.BufferAttribute(pos,3));scene.add(new THREE.Points(stars,new THREE.PointsMaterial({size:0.08,vertexColors:false})));let geo=new THREE.SphereGeometry(2,64,32);let tex=new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg');moon=new THREE.Mesh(geo,new THREE.MeshPhongMaterial({map:tex,color:0xff3333,emissive:0x220000}));scene.add(moon);window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight);});}function animate(){requestAnimationFrame(animate);if(moon)moon.rotation.y+=0.001;if(controls)controls.update();renderer.render(scene,camera);}
+let particles=[];function setup(){let c=createCanvas(windowWidth,windowHeight);c.parent('p5-canvas');c.style('position','fixed');c.style('top','0');c.style('left','0');c.style('z-index','5');for(let i=0;i<150;i++)particles.push(new Particle());}function draw(){clear();for(let p of particles){p.x+=p.vx;p.y+=p.vy;let d=dist(mouseX,mouseY,p.x,p.y);if(d<200){p.vx+=(mouseX-p.x)/d*0.6;p.vy+=(mouseY-p.y)/d*0.6;}if(p.x<0||p.x>width)p.vx*=-0.7;if(p.y<0||p.y>height)p.vy*=-0.7;p.vx*=0.99;p.vy*=0.99;fill(255,20,20,150);ellipse(p.x,p.y,8);}}function windowResized(){resizeCanvas(windowWidth,windowHeight);}class Particle{constructor(){this.x=random(width);this.y=random(height);this.vx=random(-0.8,0.8);this.vy=random(-0.8,0.8);}}
+function adjust(a,c){let e=document.getElementById(a+'Val');let v=parseInt(e.textContent)+c;if(v<0)v=0;if(v>20)v=20;e.textContent=v;e.style.color=v<=5?'#f66':v<=10?'#f33':v<=15?'#f00':'#c00';}
+function save(){let data={basic:{name:document.getElementById('name').value,age:document.getElementById('age').value,gender:document.getElementById('gender').value,nationality:document.getElementById('nationality').value,race:document.getElementById('race').value,background:document.getElementById('background').value,creed:document.getElementById('creed').value,desire:document.getElementById('desire').value},attributes:{soul:parseInt(document.getElementById('soulVal').textContent),body:parseInt(document.getElementById('bodyVal').textContent)},skills:{}};document.querySelectorAll('.skill-input').forEach(i=>{if(i.dataset.name)data.skills[i.dataset.name]=parseInt(i.value)||0;});localStorage.setItem('characterCardData',JSON.stringify(data));alert('角色卡已保存到本地存储！');}
+function reset(){if(confirm('确定要重置所有数据吗？')){['name','age','gender','nationality','race','background','creed','desire'].forEach(id=>document.getElementById(id).value='');document.getElementById('soulVal').textContent='5';document.getElementById('bodyVal').textContent='5';document.querySelectorAll('.skill-input').forEach(i=>i.value='0');adjust('soul',0);adjust('body',0);}}
+function exportData(){let data={basic:{name:document.getElementById('name').value,age:document.getElementById('age').value,gender:document.getElementById('gender').value,nationality:document.getElementById('nationality').value,race:document.getElementById('race').value,background:document.getElementById('background').value,creed:document.getElementById('creed').value,desire:document.getElementById('desire').value},attributes:{soul:parseInt(document.getElementById('soulVal').textContent),body:parseInt(document.getElementById('bodyVal').textContent)},skills:{}};document.querySelectorAll('.skill-input').forEach(i=>{if(i.dataset.name)data.skills[i.dataset.name]=parseInt(i.value)||0;});let a=document.createElement('a');a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));a.download='character_card.json';a.click();}
+window.addEventListener('DOMContentLoaded',function(){let saved=localStorage.getItem('characterCardData');if(saved&&confirm('检测到保存的数据，是否加载？')){try{let d=JSON.parse(saved);if(d.basic)Object.keys(d.basic).forEach(k=>{if(document.getElementById(k))document.getElementById(k).value=d.basic[k]||'';});if(d.attributes){document.getElementById('soulVal').textContent=d.attributes.soul||5;document.getElementById('bodyVal').textContent=d.attributes.body||5;adjust('soul',0);adjust('body',0);}if(d.skills)document.querySelectorAll('.skill-input').forEach(i=>{if(i.dataset.name&&d.skills[i.dataset.name]!==undefined)i.value=d.skills[i.dataset.name];});}catch(e){alert('加载数据时出错');}}});
+initThree();animate();</script></body></html>

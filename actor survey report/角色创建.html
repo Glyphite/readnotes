@@ -58,6 +58,7 @@
     
     .form-group {
       margin-bottom: 15px;
+      position: relative;
     }
     
     .form-group label {
@@ -65,15 +66,47 @@
       font-weight: bold;
       margin-bottom: 5px;
       color: #555;
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: all 0.2s ease;
+      pointer-events: none;
+      background: white;
+      padding: 0 4px;
+      z-index: 1;
     }
     
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      padding: 8px;
+      padding: 12px;
       border: 1px solid #ddd;
       border-radius: 4px;
       font-size: 14px;
       box-sizing: border-box;
+      transition: all 0.2s ease;
+      background: white;
+    }
+    
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: #4CAF50;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+    
+    .form-group input:focus ~ label,
+    .form-group input:not(:placeholder-shown) ~ label,
+    .form-group select:focus ~ label,
+    .form-group select:valid ~ label,
+    .form-group textarea:focus ~ label,
+    .form-group textarea:not(:placeholder-shown) ~ label {
+      top: 0;
+      left: 8px;
+      transform: translateY(-50%);
+      font-size: 12px;
+      color: #4CAF50;
+      background: white;
+      padding: 0 4px;
     }
     
     .form-group textarea {
@@ -81,46 +114,12 @@
       resize: vertical;
     }
     
-    .input-container {
-      position: relative;
-      margin-bottom: 15px;
-    }
-    
-    .custom-input, .custom-textarea {
-      width: 100%;
-      padding: 16px 12px 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 16px;
-      transition: border-color 0.3s;
-      box-sizing: border-box;
-    }
-    
-    .custom-input:focus, .custom-textarea:focus {
-      outline: none;
-      border-color: #4CAF50;
-    }
-    
-    .input-label {
-      position: absolute;
-      top: 16px;
-      left: 12px;
-      color: #999;
-      font-size: 16px;
-      pointer-events: none;
-      transition: all 0.3s;
-      background: white;
-      padding: 0 4px;
-    }
-    
-    .custom-input:focus + .input-label,
-    .custom-input:not(:placeholder-shown) + .input-label,
-    .custom-textarea:focus + .input-label,
-    .custom-textarea:not(:placeholder-shown) + .input-label {
-      top: -8px;
-      left: 8px;
-      font-size: 12px;
-      color: #4CAF50;
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
     }
     
     .points-display {
@@ -326,67 +325,57 @@
       <div class="creator-section">
         <h2>基础设定</h2>
         <div class="form-group">
-          <div class="input-container">
-            <input type="text" id="character-name" class="custom-input" placeholder=" ">
-            <label for="character-name" class="input-label">角色姓名</label>
-          </div>
+          <input type="text" id="character-name" placeholder=" " required>
+          <label for="character-name">角色姓名</label>
         </div>
         
         <div class="form-group">
-          <label for="character-age">年龄</label>
-          <select id="character-age">
+          <select id="character-age" required>
+            <option value="" disabled selected></option>
             <option value="under20">小于20岁（魂、魄共计-2点）</option>
-            <option value="20-30" selected>20-30岁（正常属性）</option>
+            <option value="20-30">20-30岁（正常属性）</option>
             <option value="30-40">30-40岁（魂+1，魄-1）</option>
             <option value="40-50">40-50岁（魂魄各-2）</option>
             <option value="50-60">50-60岁（多-2）</option>
             <option value="60-70">60-70岁（多-4）</option>
             <option value="70-80">70-80岁（多-6）</option>
           </select>
+          <label for="character-age">年龄</label>
         </div>
         
         <div class="form-group">
-          <label for="character-gender">性别</label>
-          <select id="character-gender">
+          <select id="character-gender" required>
+            <option value="" disabled selected></option>
             <option value="male">男性</option>
             <option value="female">女性</option>
             <option value="other">其他</option>
           </select>
+          <label for="character-gender">性别</label>
         </div>
         
         <div class="form-group">
-          <div class="input-container">
-            <input type="text" id="character-nationality" class="custom-input" placeholder=" ">
-            <label for="character-nationality" class="input-label">国籍</label>
-          </div>
+          <input type="text" id="character-nationality" placeholder=" " required>
+          <label for="character-nationality">国籍</label>
         </div>
         
         <div class="form-group">
-          <div class="input-container">
-            <input type="text" id="character-race" class="custom-input" placeholder=" ">
-            <label for="character-race" class="input-label">人种/种族</label>
-          </div>
+          <input type="text" id="character-race" placeholder=" " required>
+          <label for="character-race">人种/种族</label>
         </div>
         
         <div class="form-group">
-          <div class="input-container">
-            <textarea id="character-background" class="custom-textarea" placeholder=" "></textarea>
-            <label for="character-background" class="input-label">背景经历</label>
-          </div>
+          <textarea id="character-background" placeholder=" " required></textarea>
+          <label for="character-background">背景经历</label>
         </div>
         
         <div class="form-group">
-          <div class="input-container">
-            <input type="text" id="character-creed" class="custom-input" placeholder=" ">
-            <label for="character-creed" class="input-label">信条</label>
-          </div>
+          <input type="text" id="character-creed" placeholder=" " required>
+          <label for="character-creed">信条</label>
         </div>
         
         <div class="form-group">
-          <div class="input-container">
-            <input type="text" id="character-desire" class="custom-input" placeholder=" ">
-            <label for="character-desire" class="input-label">欲望</label>
-          </div>
+          <input type="text" id="character-desire" placeholder=" " required>
+          <label for="character-desire">欲望</label>
         </div>
       </div>
     </div>

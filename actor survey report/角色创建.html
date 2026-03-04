@@ -60,23 +60,49 @@
       margin-bottom: 15px;
     }
     
-    .form-group label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #555;
+    .input-group {
+      position: relative;
     }
     
-    .form-group input, .form-group select, .form-group textarea {
+    .input-group input, .input-group select, .input-group textarea {
       width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
+      padding: 16px 12px 8px;
+      border: 1px solid #ccc;
       border-radius: 4px;
-      font-size: 14px;
+      font-size: 16px;
       box-sizing: border-box;
+      background: white;
+      transition: border-color 0.3s ease;
     }
     
-    .form-group textarea {
+    .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+      border-color: #1976D2;
+      outline: none;
+    }
+    
+    .input-group label {
+      position: absolute;
+      left: 12px;
+      top: 16px;
+      color: #666;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      background: white;
+      padding: 0 4px;
+    }
+    
+    .input-group input:focus + label, 
+    .input-group input:not(:placeholder-shown) + label,
+    .input-group select:focus + label,
+    .input-group textarea:focus + label,
+    .input-group textarea:not(:placeholder-shown) + label {
+      top: -8px;
+      font-size: 12px;
+      color: #1976D2;
+    }
+    
+    .input-group textarea {
       height: 80px;
       resize: vertical;
     }
@@ -284,55 +310,73 @@
       <div class="creator-section">
         <h2>基础设定</h2>
         <div class="form-group">
-          <label for="character-name">角色姓名</label>
-          <input type="text" id="character-name" placeholder="输入角色姓名">
+          <div class="input-group">
+            <input type="text" id="character-name">
+            <label for="character-name">角色姓名</label>
+          </div>
         </div>
         
         <div class="form-group">
-          <label for="character-age">年龄</label>
-          <select id="character-age">
-            <option value="under20">小于20岁（魂、魄共计-2点）</option>
-            <option value="20-30" selected>20-30岁（正常属性）</option>
-            <option value="30-40">30-40岁（魂+1，魄-1）</option>
-            <option value="40-50">40-50岁（魂魄各-2）</option>
-            <option value="50-60">50-60岁（多-2）</option>
-            <option value="60-70">60-70岁（多-4）</option>
-            <option value="70-80">70-80岁（多-6）</option>
-          </select>
+          <div class="input-group">
+            <select id="character-age">
+              <option value="" disabled selected></option>
+              <option value="under20">小于20岁（魂、魄共计-2点）</option>
+              <option value="20-30" selected>20-30岁（正常属性）</option>
+              <option value="30-40">30-40岁（魂+1，魄-1）</option>
+              <option value="40-50">40-50岁（魂魄各-2）</option>
+              <option value="50-60">50-60岁（多-2）</option>
+              <option value="60-70">60-70岁（多-4）</option>
+              <option value="70-80">70-80岁（多-6）</option>
+            </select>
+            <label for="character-age">年龄</label>
+          </div>
         </div>
         
         <div class="form-group">
-          <label for="character-gender">性别</label>
-          <select id="character-gender">
-            <option value="male">男性</option>
-            <option value="female">女性</option>
-            <option value="other">其他</option>
-          </select>
+          <div class="input-group">
+            <select id="character-gender">
+              <option value="" disabled selected></option>
+              <option value="male">男性</option>
+              <option value="female">女性</option>
+              <option value="other">其他</option>
+            </select>
+            <label for="character-gender">性别</label>
+          </div>
         </div>
         
         <div class="form-group">
-          <label for="character-nationality">国籍</label>
-          <input type="text" id="character-nationality" placeholder="输入国籍">
+          <div class="input-group">
+            <input type="text" id="character-nationality">
+            <label for="character-nationality">国籍</label>
+          </div>
         </div>
         
         <div class="form-group">
-          <label for="character-race">人种/种族</label>
-          <input type="text" id="character-race" placeholder="输入人种或种族">
+          <div class="input-group">
+            <input type="text" id="character-race">
+            <label for="character-race">人种/种族</label>
+          </div>
         </div>
         
         <div class="form-group">
-          <label for="character-background">背景经历</label>
-          <textarea id="character-background" placeholder="描述角色的背景故事和经历"></textarea>
+          <div class="input-group">
+            <textarea id="character-background"></textarea>
+            <label for="character-background">背景经历</label>
+          </div>
         </div>
         
         <div class="form-group">
-          <label for="character-creed">信条</label>
-          <input type="text" id="character-creed" placeholder="输入角色的信条">
+          <div class="input-group">
+            <input type="text" id="character-creed">
+            <label for="character-creed">信条</label>
+          </div>
         </div>
         
         <div class="form-group">
-          <label for="character-desire">欲望</label>
-          <input type="text" id="character-desire" placeholder="输入角色的欲望">
+          <div class="input-group">
+            <input type="text" id="character-desire">
+            <label for="character-desire">欲望</label>
+          </div>
         </div>
       </div>
     </div>

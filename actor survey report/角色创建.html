@@ -218,9 +218,9 @@
     }
     
     .skill-categories {
-      display: flex;
-      gap: 25px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
     }
     
     .skill-category {
@@ -253,7 +253,7 @@
       background: white;
       border: 1px solid #dee2e6;
       border-radius: 8px;
-      padding: 12px;
+      padding: 8px;
       text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.03);
       transition: all 0.3s ease;
@@ -266,22 +266,22 @@
     
     .skill-name {
       font-weight: 500;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: #495057;
-      font-size: 14px;
+      font-size: 12px;
     }
     
     .skill-level {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: bold;
       color: #28a745;
-      margin: 5px 0;
+      margin: 4px 0;
     }
     
     .skill-controls {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
     }
     
     .skill-controls button {
@@ -289,10 +289,10 @@
       color: white;
       border: none;
       border-radius: 6px;
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: bold;
       transition: all 0.3s ease;
     }
@@ -653,24 +653,19 @@
       container.innerHTML = '';
       
       categories.forEach(cat => {
-        const categoryDiv = document.createElement('div');
-        categoryDiv.className = 'skill-category';
-        categoryDiv.innerHTML = `
-          <h4>${cat.name}</h4>
-          <div class="skill-grid">
-            ${cat.skills.map(skill => `
-              <div class="skill-item">
-                <div class="skill-name">${skill}</div>
-                <div class="skill-level" id="skill-${skill.replace(/\s/g, '-')}">${character.skills[skill]}</div>
-                <div class="skill-controls">
-                  <button onclick="adjustSkill('${skill}', -1)">-</button>
-                  <button onclick="adjustSkill('${skill}', 1)">+</button>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-        container.appendChild(categoryDiv);
+        cat.skills.forEach(skill => {
+          const skillItem = document.createElement('div');
+          skillItem.className = 'skill-item';
+          skillItem.innerHTML = `
+            <div class="skill-name">${skill}</div>
+            <div class="skill-level" id="skill-${skill.replace(/\s/g, '-')}">${character.skills[skill]}</div>
+            <div class="skill-controls">
+              <button onclick="adjustSkill('${skill}', -1)">-</button>
+              <button onclick="adjustSkill('${skill}', 1)">+</button>
+            </div>
+          `;
+          container.appendChild(skillItem);
+        });
       });
     }
 

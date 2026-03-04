@@ -6,10 +6,9 @@
 	<title>角色卡创建器</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/TextureLoader.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
 	<style>
-		*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:Arial;overflow-x:hidden;min-height:100vh}.c{position:relative;z-index:20;max-width:1400px;margin:0 auto;padding:2rem}header{text-align:center;padding:2rem 0;margin-bottom:2rem}h1{font-size:3.5rem;color:#f00;letter-spacing:6px;text-shadow:0 0 20px rgba(255,0,0,0.7);margin-bottom:.5rem;font-weight:900}.s{font-size:1.2rem;color:#f99;letter-spacing:2px;opacity:.9}.m{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem}@media(max-width:1100px){.m{grid-template-columns:1fr}}.card{background:rgba(255,0,0,0.15);backdrop-filter:blur(10px);border:2px solid rgba(255,100,100,0.4);border-radius:8px;padding:2rem;transition:transform .3s,box-shadow .3s,backdrop-filter .3s}.card:hover{box-shadow:0 10px 30px rgba(255,0,0,0.4);backdrop-filter:blur(12px)}.card h2{color:#f00;font-size:1.8rem;margin-bottom:1.5rem;border-left:4px solid #f00;padding-left:1rem}.st{color:#f66;font-size:1.4rem;margin:1.5rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,100,100,0.3)}.fg{margin-bottom:1.2rem;position:relative}/* 重构的MD3输入框 - 无边框，标签左对齐垂直居中 */.input-container{position:relative;margin-top:0;margin-bottom:2rem}.input-wrapper{position:relative;width:100%}.md3-input{width:100%;padding:1.2rem 1rem .8rem;background:rgba(20,0,0,0.7);border:none;border-radius:8px;color:#fff;font-size:1.1rem;outline:none;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);position:relative;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,0.3)}.md3-input:focus{box-shadow:0 0 0 2px rgba(255,0,0,0.2),0 0 20px rgba(255,0,0,0.1),0 2px 8px rgba(0,0,0,0.3)}.md3-input:hover:not(:focus){background:rgba(25,0,0,0.9)}/* 标签样式 - 左对齐，垂直居中，灰色 */.input-label{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:rgba(180,180,180,0.9);pointer-events:none;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);transform-origin:0 0;white-space:nowrap;z-index:3;font-size:1.1rem;background:transparent;padding:0 .25rem;margin:0}/* 浮动状态 - 左上角对齐并变红，移除背景色 */.md3-input:focus~.input-label,.md3-input:not(:placeholder-shown)~.input-label{transform:translateY(-1.8rem) translateX(0) scale(0.85);color:#ff4444;font-weight:600;text-shadow:0 0 10px rgba(255,68,68,0.3);padding:0;animation:labelGlow 2s infinite alternate}@keyframes labelGlow{0%{text-shadow:0 0 10px rgba(255,68,68,0.3),0 0 20px rgba(255,68,68,0.1)}100%{text-shadow:0 0 15px rgba(255,68,68,0.5),0 0 25px rgba(255,68,68,0.2)}}/* 焦点时的容器动画 */.input-container:focus-within .input-wrapper{transform:translateY(-2px)}.input-wrapper{transition:transform 0.3s cubic-bezier(0.4,0,0.2,1)}/* 下拉选择框特殊样式 */select.md3-input{appearance:none;padding-right:2.5rem;background:rgba(20,0,0,0.85) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path fill="%23ff6666" d="M7 10L2 5h10z"/></svg>') no-repeat right 1rem center;transition:all 0.3s}select.md3-input:focus{background-color:rgba(30,0,0,0.9)}textarea.md3-input{min-height:120px;resize:vertical;font-family:inherit;line-height:1.5;padding-top:1.5rem}textarea.md3-input~.input-label{top:calc(50% + 0.2rem)}.ar{display:flex;align-items:center;margin-bottom:1.5rem;background:rgba(30,0,0,0.5);padding:1.2rem;border-radius:8px;border:1px solid rgba(255,100,100,0.3);transition:transform .3s,box-shadow .3s}.ar:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(255,0,0,0.2)}.an{flex:0 0 100px;color:#f99;font-size:1.3rem;font-weight:bold}.ac{display:flex;align-items:center;flex:1;justify-content:center}.vd{min-width:60px;text-align:center;font-size:2.2rem;font-weight:bold;color:#f00;margin:0 1.5rem;text-shadow:0 0 10px rgba(255,0,0,0.5);transition:all .3s}.vd:hover{transform:scale(1.1);text-shadow:0 0 20px rgba(255,0,0,0.8)}.btn{background:rgba(255,0,0,0.7);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:1.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s cubic-bezier(0.4,0,0.2,1)}.btn:hover{background:rgba(255,50,50,0.9);transform:scale(1.15);box-shadow:0 0 15px rgba(255,0,0,0.5)}.btn:active{transform:scale(0.95)}.btn-m{background:rgba(255,100,100,0.7)}.btn-p{background:rgba(255,50,50,0.7)}.sk{width:100%;border-collapse:separate;border-spacing:0;margin-top:1rem}.sk th{background:linear-gradient(180deg,rgba(255,0,0,0.4),rgba(200,0,0,0.3));color:#ffcccc;padding:1rem;text-align:center;border:1px solid rgba(255,100,100,0.6);font-size:1.1rem;font-weight:600}.sk td{padding:.8rem;text-align:center;border:1px solid rgba(255,100,100,0.3);background:rgba(20,0,0,0.3);transition:all .3s}.sk tr:hover td{background:rgba(255,0,0,0.15);transform:translateY(-2px)}.sn{color:#ffcccc;font-size:1rem;margin-bottom:.5rem;font-weight:500}.si{width:100%;padding:.6rem;background:rgba(10,0,0,0.7);border:1px solid rgba(255,100,100,0.5);border-radius:6px;color:#fff;text-align:center;transition:all .2s;font-size:1.1rem}.si:focus{border-color:#f00;background:rgba(20,0,0,0.9);outline:none;box-shadow:0 0 10px rgba(255,0,0,0.3)}.ab{display:flex;justify-content:center;gap:1.5rem;margin-top:2rem}.abt{padding:1rem 2.5rem;background:linear-gradient(135deg,rgba(255,0,0,0.8),rgba(200,0,0,0.9));color:#fff;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer;transition:all .3s cubic-bezier(0.4,0,0.2,1);font-weight:600;letter-spacing:1px}.abt:hover{background:linear-gradient(135deg,rgba(255,50,50,0.9),rgba(220,0,0,1));transform:translateY(-3px);box-shadow:0 10px 20px rgba(255,0,0,0.3)}.abt:active{transform:translateY(-1px)}.abt.s{background:linear-gradient(135deg,rgba(100,0,0,0.7),rgba(80,0,0,0.8))}.abt.s:hover{background:linear-gradient(135deg,rgba(150,0,0,0.9),rgba(120,0,0,1))}footer{text-align:center;padding:2rem 0;color:#cc8888;font-size:.9rem}#three-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:auto}#p5-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:5;pointer-events:auto}@media(max-width:768px){h1{font-size:2.5rem;letter-spacing:4px}.c{padding:1rem}.m{grid-template-columns:1fr}.sk th,.sk td{padding:.4rem;font-size:.9rem}.ab{flex-direction:column}.abt{padding:.8rem 1.5rem}}
+		*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:Arial;min-height:100vh}.c{position:relative;z-index:20;max-width:1400px;margin:0 auto;padding:2rem}header{text-align:center;padding:2rem 0}h1{font-size:3.5rem;color:#f00;letter-spacing:6px;text-shadow:0 0 20px rgba(255,0,0,0.7);margin-bottom:.5rem}.s{font-size:1.2rem;color:#f99;letter-spacing:2px;opacity:.9}.m{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:3rem}@media(max-width:1100px){.m{grid-template-columns:1fr}}.card{background:rgba(255,0,0,0.15);backdrop-filter:blur(10px);border:2px solid rgba(255,100,100,0.4);border-radius:8px;padding:2rem}.card h2{color:#f00;font-size:1.8rem;margin-bottom:1.5rem;border-left:4px solid #f00;padding-left:1rem}.st{color:#f66;font-size:1.4rem;margin:1.5rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,100,100,0.3)}.input-container{position:relative;margin-bottom:2rem}.md3-input{width:100%;padding:1.2rem 1rem .8rem;background:rgba(20,0,0,0.7);border:none;border-radius:8px;color:#fff;font-size:1.1rem;outline:none;transition:all 0.3s;box-shadow:0 2px 8px rgba(0,0,0,0.3)}.md3-input:focus{box-shadow:0 0 0 2px rgba(255,0,0,0.2)}.input-label{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:rgba(180,180,180,0.9);pointer-events:none;transition:all 0.3s;transform-origin:0 0;white-space:nowrap;z-index:3;font-size:1.1rem;padding:0 .25rem}.md3-input:focus~.input-label,.md3-input:not(:placeholder-shown):not(select)~.input-label,.input-label.float{transform:translateY(-1.8rem) scale(0.85);color:#ff4444;padding:0}select.md3-input{appearance:none;padding-right:2.5rem;background:rgba(20,0,0,0.85) url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path fill="%23ff6666" d="M7 10L2 5h10z"/></svg>') no-repeat right 1rem center;cursor:pointer}textarea.md3-input{min-height:120px;resize:vertical;font-family:inherit;line-height:1.5;padding-top:1.5rem}.ar{display:flex;align-items:center;margin-bottom:1rem;background:rgba(30,0,0,0.5);padding:0.8rem;border-radius:8px;border:1px solid rgba(255,100,100,0.3)}.an{flex:0 0 100px;color:#f99;font-size:1.3rem;font-weight:bold}.ac{display:flex;align-items:center;flex:1;justify-content:center}.vd{min-width:60px;text-align:center;font-size:2.2rem;font-weight:bold;color:#f00;margin:0 1.5rem;text-shadow:0 0 10px rgba(255,0,0,0.5)}.btn{background:rgba(255,0,0,0.7);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:1.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}.btn:hover{background:rgba(255,50,50,0.9);transform:scale(1.1)}.btn-m{background:rgba(255,100,100,0.7)}.btn-p{background:rgba(255,50,50,0.7)}.sk{width:100%;border-collapse:separate;border-spacing:0;margin-top:1rem}.sk th{background:linear-gradient(180deg,rgba(255,0,0,0.4),rgba(200,0,0,0.3));color:#ffcccc;padding:1rem;text-align:center;border:1px solid rgba(255,100,100,0.6);font-size:1.1rem}.sk td{padding:.8rem;text-align:center;border:1px solid rgba(255,100,100,0.3);background:rgba(20,0,0,0.3)}.sn{color:#ffcccc;font-size:1rem;margin-bottom:.5rem}.si{width:100%;padding:.6rem;background:rgba(10,0,0,0.7);border:1px solid rgba(255,100,100,0.5);border-radius:6px;color:#fff;text-align:center;transition:all .2s;font-size:1.1rem}.si:focus{border-color:#f00;background:rgba(20,0,0,0.9);outline:none;box-shadow:0 0 10px rgba(255,0,0,0.3)}.ab{display:flex;justify-content:center;gap:1.5rem;margin-top:2rem}.abt{padding:1rem 2.5rem;background:linear-gradient(135deg,rgba(255,0,0,0.8),rgba(200,0,0,0.9));color:#fff;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer;transition:all .3s}.abt:hover{background:linear-gradient(135deg,rgba(255,50,50,0.9),rgba(220,0,0,1));transform:translateY(-3px)}.abt.s{background:linear-gradient(135deg,rgba(100,0,0,0.7),rgba(80,0,0,0.8))}footer{text-align:center;padding:2rem 0;color:#cc8888;font-size:.9rem}#three-canvas,#p5-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1}#p5-canvas{z-index:5}@media(max-width:768px){h1{font-size:2.5rem;letter-spacing:4px}.c{padding:1rem}.m{grid-template-columns:1fr}.sk th,.sk td{padding:.4rem;font-size:.9rem}.ab{flex-direction:column}.abt{padding:.8rem 1.5rem}}
 	</style>
 </head>
 <body>
@@ -18,189 +17,295 @@
 	<div class="c">
 		<header>
 			<h1>角色卡创建器</h1>
-			<p class="s">定义你的角色 | 红色主题</p>
+			<p class="s">精简版 | 红色主题</p>
 		</header>
 		<main>
 			<div class="m">
 				<div class="card">
 					<h2>基础设定</h2>
-					<div class="fg">
-						<div class="input-container">
-							<div class="input-wrapper"><input type="text" id="n" class="md3-input" placeholder=" "><span class="input-label">角色姓名</span></div>
-						</div>
-					</div>
-					<div class="fg">
-						<div class="input-container">
-							<div class="input-wrapper"><input type="number" id="a" class="md3-input" placeholder=" "><span class="input-label">年龄</span></div>
-						</div>
-					</div>
-					<div class="fg">
-						<div class="input-container">
-							<div class="input-wrapper"><select id="g" class="md3-input" required>
-									<option value="" disabled selected hidden></option>
-									<option value="m">男性</option>
-									<option value="f">女性</option>
-									<option value="o">其他</option>
-								</select><span class="input-label">性别</span></div>
-						</div>
-					</div>
-					<div class="fg">
-						<div class="input-container">
-							<div class="input-wrapper"><input type="text" id="nat" class="md3-input" placeholder=" "><span class="input-label">国籍</span></div>
-						</div>
-					</div>
-					<div class="fg">
-						<div class="input-container">
-							<div class="input-wrapper"><input type="text" id="r" class="md3-input" placeholder=" "><span class="input-label">人种/种族</span></div>
-						</div>
-					</div>
+					<div class="input-container"><input type="text" id="n" class="md3-input" placeholder=" "><span class="input-label">角色姓名</span></div>
+					<div class="input-container"><input type="number" id="a" class="md3-input" placeholder=" "><span class="input-label">年龄</span></div>
+					<div class="input-container"><select id="g" class="md3-input" required><option value="" disabled selected>请选择性别</option><option value="m">男性</option><option value="f">女性</option><option value="o">其他</option></select><span class="input-label">性别</span></div>
+					<div class="input-container"><input type="text" id="nat" class="md3-input" placeholder=" "><span class="input-label">国籍</span></div>
+					<div class="input-container"><input type="text" id="r" class="md3-input" placeholder=" "><span class="input-label">人种/种族</span></div>
 					<div class="st">背景与信念</div>
-					<div class="fg">
-						<div class="input-container">
-							<div class="input-wrapper"><textarea id="bg" class="md3-input" placeholder=" "></textarea><span class="input-label">背景经历</span></div>
-						</div>
-					</div>
-					<div class="fg">
-						<div class="input-container">
-							<div class="input-wrapper"><input type="text" id="crd" class="md3-input" placeholder=" "><span class="input-label">信条</span></div>
-						</div>
-					</div>
-					<div class="fg">
-						<div class="input-container">
-							<div class="input-wrapper"><input type="text" id="d" class="md3-input" placeholder=" "><span class="input-label">欲望</span></div>
-						</div>
-					</div>
+					<div class="input-container"><textarea id="bg" class="md3-input" placeholder=" "></textarea><span class="input-label">背景经历</span></div>
+					<div class="input-container"><input type="text" id="crd" class="md3-input" placeholder=" "><span class="input-label">信条</span></div>
+					<div class="input-container"><input type="text" id="d" class="md3-input" placeholder=" "><span class="input-label">欲望</span></div>
 				</div>
 				<div class="card">
 					<h2>角色属性</h2>
-					<div class="ar">
-						<div class="an">魂</div>
-						<div class="ac"><button class="btn btn-m" onclick="adj('s',-1)">-</button>
-							<div class="vd" id="sv">5</div><button class="btn btn-p" onclick="adj('s',1)">+</button>
-						</div>
-					</div>
-					<div class="ar">
-						<div class="an">魄</div>
-						<div class="ac"><button class="btn btn-m" onclick="adj('b',-1)">-</button>
-							<div class="vd" id="bv">5</div><button class="btn btn-p" onclick="adj('b',1)">+</button>
-						</div>
-					</div>
+					<div class="ar"><div class="an">魂</div><div class="ac"><button class="btn btn-m" onclick="adj('s',-1)">-</button><div class="vd" id="sv">5</div><button class="btn btn-p" onclick="adj('s',1)">+</button></div></div>
+					<div class="ar"><div class="an">魄</div><div class="ac"><button class="btn btn-m" onclick="adj('b',-1)">-</button><div class="vd" id="bv">5</div><button class="btn btn-p" onclick="adj('b',1)">+</button></div></div>
 					<h2 style="margin-top:2.5rem">角色技能</h2>
 					<table class="sk">
-						<thead>
-							<tr>
-								<th>近战</th>
-								<th>远程</th>
-								<th>探索</th>
-								<th>交互</th>
-								<th>知识</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-									<div class="sn">斩击技法</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">百步穿杨</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">巧舌如簧</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">妙手回春</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">械理洞明</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="sn">刺击技法</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">枪火点射</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">威压恫吓</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">蛇行鳞潜</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">博古通今</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="sn">钝击技法</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">弹雨倾泻</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">明见万里</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">鬼蜮伎俩</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">金石药理</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="sn">鞭击技法</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">重炮轰鸣</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">故纸寻踪</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">机动驾驶</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">万物生息</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="sn">近身搏击</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">奇械专精</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">明心见性</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">运动自如</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-								<td>
-									<div class="sn">数据思维</div><input type="number" class="si" min="0" max="10" value="0">
-								</td>
-							</tr>
-						</tbody>
+						<thead><tr><th>近战</th><th>远程</th><th>探索</th><th>交互</th><th>知识</th></tr></thead>
+						<tbody id="skills-tbody"></tbody>
 					</table>
-					<div class="ab"><button class="abt" onclick="save()">保存角色卡</button><button class="abt s" onclick="reset()">重置表单</button><button class="abt s" onclick="exp()">导出数据</button></div>
+					<div class="ab"><button class="abt" onclick="save()">保存</button><button class="abt s" onclick="reset()">重置</button><button class="abt s" onclick="exp()">导出</button></div>
 				</div>
 			</div>
 		</main>
 		<footer>
-			<p>© 2026 角色卡创建器 | 红色主题 | 拖拽旋转背景月球，粒子跟随鼠标移动</p>
-			<p>所有数据仅保存在本地浏览器中，刷新页面会丢失数据，请及时导出保存</p>
+			<p>© 2026 角色卡创建器 | 精简版</p>
+			<p>数据保存在本地浏览器中，请及时导出保存</p>
 		</footer>
 	</div>
 	<script>
-		let s,c,r,ct,m,ca=document.getElementById('three-canvas');function it(){s=new THREE.Scene();s.background=new THREE.Color(0x0a0005);c=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);c.position.z=5;r=new THREE.WebGLRenderer({antialias:!0,alpha:!0,toneMapping:THREE.ACESFilmicToneMapping,toneMappingExposure:1.2});r.setSize(window.innerWidth,window.innerHeight);r.setPixelRatio(window.devicePixelRatio);ca.appendChild(r.domElement);ct=new THREE.OrbitControls(c,r.domElement);ct.enableDamping=!0;ct.dampingFactor=0.05;ct.autoRotate=!1;ct.minDistance=3;ct.maxDistance=15;s.add(new THREE.AmbientLight(0x330000));let e=new THREE.DirectionalLight(0xffaa88,1.5);e.position.set(10,5,7);s.add(e);let t=new THREE.DirectionalLight(0xff6644,0.3);t.position.set(-5,3,-5);s.add(t);let a=new THREE.BufferGeometry(),n=3e3,l=new Float32Array(n*3),o=new Float32Array(n*3);for(let i=0;i<n*3;i+=3){let d=30+200*Math.random(),g=2*Math.PI*Math.random(),u=Math.acos(2*Math.random()-1);l[i]=d*Math.sin(u)*Math.cos(g);l[i+1]=d*Math.sin(u)*Math.sin(g);l[i+2]=d*Math.cos(u);o[i]=.6+.4*Math.random();o[i+1]=.1+.3*Math.random();o[i+2]=.1+.3*Math.random()}a.setAttribute('position',new THREE.BufferAttribute(l,3));a.setAttribute('color',new THREE.BufferAttribute(o,3));s.add(new THREE.Points(a,new THREE.PointsMaterial({size:.08,sizeAttenuation:!0,vertexColors:!0,transparent:!0,opacity:.8})));let p=new THREE.SphereGeometry(2,128,64),h=new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg');m=new THREE.Mesh(p,new THREE.MeshPhongMaterial({map:h,color:0xff3333,specular:0x552222,shininess:5,emissive:0x220000,emissiveIntensity:.1}));m.rotation.y=Math.PI/6;s.add(m);let v=document.createElement('canvas');v.width=64;v.height=64;let C=v.getContext('2d'),x=C.createRadialGradient(32,32,0,32,32,32);x.addColorStop(0,'rgba(255,100,100,1)');x.addColorStop(.2,'rgba(255,50,50,0.8)');x.addColorStop(1,'rgba(255,0,0,0)');C.fillStyle=x;C.fillRect(0,0,64,64);let y=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(v),color:0xff4444,transparent:!0,blending:THREE.AdditiveBlending,opacity:.3}));y.scale.set(5,5,1);m.add(y);window.addEventListener('resize',function(){c.aspect=window.innerWidth/window.innerHeight;c.updateProjectionMatrix();r.setSize(window.innerWidth,window.innerHeight);typeof windowResized=='function'&&windowResized()})}function at(){requestAnimationFrame(at);m&&(m.rotation.y+=.001);ct&&ct.update();r.render(s,c)}
-	</script>
-	<script>
-		let p=[],pc=150;function setup(){let e=createCanvas(windowWidth,windowHeight);e.parent('p5-canvas');e.style('position','fixed');e.style('top','0');e.style('left','0');e.style('z-index','5');clear();for(let t=0;t<pc;t++)p.push(new Pt());noStroke()}function draw(){clear();for(let e of p)e.update(),e.display()}function windowResized(){resizeCanvas(windowWidth,windowHeight)}class Pt{constructor(){this.reset();this.size=random(4,10);this.tl=[];this.mtl=12}reset(){this.x=random(width);this.y=random(height);this.vx=random(-.8,.8);this.vy=random(-.8,.8);this.a=random(180,250);this.c=color(255,20,20,this.a);this.s=random(.5,2);this.tl=[]}update(){this.tl.push({x:this.x,y:this.y,a:this.a});this.tl.length>this.mtl&&this.tl.shift();this.x+=this.vx*this.s;this.y+=this.vy*this.s;let e=mouseX-this.x,t=mouseY-this.y,n=sqrt(e*e+t*t);n<200&&(this.vx+=e/n*.6,this.vy+=t/n*.6);(this.x<0||this.x>width)&&(this.vx*=-.7);(this.y<0||this.y>height)&&(this.vy*=-.7);let l=sqrt(this.vx*this.vx+this.vy*this.vy);l>3.5&&(this.vx=this.vx/l*3.5,this.vy=this.vy/l*3.5);this.vx*=.99;this.vy*=.99;this.a*=.998;if(this.a<30||(abs(this.vx)<.01&&abs(this.vy)<.01))this.reset();this.c=color(255,20,20,this.a)}display(){for(let e=0;e<this.tl.length;e++){let t=this.tl[e],n=t.a*(e/this.tl.length)*.8;fill(color(255,40,40,n));noStroke();ellipse(t.x,t.y,this.size*(e/this.tl.length)*.8)}fill(this.c);noStroke();drawingContext.shadowBlur=15;drawingContext.shadowColor='rgba(255,40,40,0.8)';ellipse(this.x,this.y,this.size);drawingContext.shadowBlur=0;fill(255,60,60,this.a*.7);ellipse(this.x,this.y,this.size*.4)}}
-	</script>
-	<script>
-		function adj(e,t){let n=document.getElementById(e=='s'?'sv':'bv'),a=parseInt(n.textContent)+t;a<0&&(a=0);a>20&&(a=20);n.textContent=a;n.style.color=a<=5?'#f66':a<=10?'#f33':a<=15?'#f00':'#c00'}function save(){let e={b:{n:document.getElementById('n').value,a:document.getElementById('a').value,g:document.getElementById('g').value,nat:document.getElementById('nat').value,r:document.getElementById('r').value,bg:document.getElementById('bg').value,crd:document.getElementById('crd').value,d:document.getElementById('d').value},at:{s:parseInt(document.getElementById('sv').textContent),b:parseInt(document.getElementById('bv').textContent)},sk:{}},t=document.querySelectorAll('.si'),n=['斩击技法','刺击技法','钝击技法','鞭击技法','近身搏击','百步穿杨','枪火点射','弹雨倾泻','重炮轰鸣','奇械专精','巧舌如簧','威压恫吓','明见万里','故纸寻踪','明心见性','妙手回春','蛇行鳞潜','鬼蜮伎俩','机动驾驶','运动自如','械理洞明','博古通今','金石药理','万物生息','数据思维'];t.forEach((a,l)=>{l<n.length&&(e.sk[n[l]]=parseInt(a.value)||0)});localStorage.setItem('ccd',JSON.stringify(e));alert('角色卡已保存到本地存储！')}function reset(){if(confirm('确定要重置所有表单数据吗？这将清除所有输入内容。')){document.getElementById('n').value='';document.getElementById('a').value='';document.getElementById('g').value='';document.getElementById('nat').value='';document.getElementById('r').value='';document.getElementById('bg').value='';document.getElementById('crd').value='';document.getElementById('d').value='';document.getElementById('sv').textContent='5';document.getElementById('bv').textContent='5';document.getElementById('sv').style.color='#f00';document.getElementById('bv').style.color='#f00';document.querySelectorAll('.si').forEach(e=>{e.value='0'});alert('表单已重置！')}}function exp(){let e={b:{n:document.getElementById('n').value,a:document.getElementById('a').value,g:document.getElementById('g').value,nat:document.getElementById('nat').value,r:document.getElementById('r').value,bg:document.getElementById('bg').value,crd:document.getElementById('crd').value,d:document.getElementById('d').value},at:{s:parseInt(document.getElementById('sv').textContent),b:parseInt(document.getElementById('bv').textContent)},sk:{}},t=document.querySelectorAll('.si'),n=['斩击技法','刺击技法','钝击技法','鞭击技法','近身搏击','百步穿杨','枪火点射','弹雨倾泻','重炮轰鸣','奇械专精','巧舌如簧','威压恫吓','明见万里','故纸寻踪','明心见性','妙手回春','蛇行鳞潜','鬼蜮伎俩','机动驾驶','运动自如','械理洞明','博古通今','金石药理','万物生息','数据思维'];t.forEach((a,l)=>{l<n.length&&(e.sk[n[l]]=parseInt(a.value)||0)});let a=JSON.stringify(e,null,2),l='data:application/json;charset=utf-8,'+encodeURIComponent(a),o=document.createElement('a');o.setAttribute('href',l);o.setAttribute('download','character_card.json');o.click()}window.addEventListener('DOMContentLoaded',function(){let e=localStorage.getItem('ccd');if(e){if(confirm('检测到之前保存的角色卡数据，是否加载？')){try{let t=JSON.parse(e);t.b&&(document.getElementById('n').value=t.b.n||'',document.getElementById('a').value=t.b.a||'',document.getElementById('g').value=t.b.g||'',document.getElementById('nat').value=t.b.nat||'',document.getElementById('r').value=t.b.r||'',document.getElementById('bg').value=t.b.bg||'',document.getElementById('crd').value=t.b.crd||'',document.getElementById('d').value=t.b.d||'');t.at&&(document.getElementById('sv').textContent=t.at.s||5,document.getElementById('bv').textContent=t.at.b||5,document.getElementById('sv').style.color='#f00',document.getElementById('bv').style.color='#f00');if(t.sk){let n=['斩击技法','刺击技法','钝击技法','鞭击技法','近身搏击','百步穿杨','枪火点射','弹雨倾泻','重炮轰鸣','奇械专精','巧舌如簧','威压恫吓','明见万里','故纸寻踪','明心见性','妙手回春','蛇行鳞潜','鬼蜮伎俩','机动驾驶','运动自如','械理洞明','博古通今','金石药理','万物生息','数据思维'],a=document.querySelectorAll('.si');a.forEach((l,o)=>{o<n.length&&(l.value=t.sk[n[o]]||0)})}alert('角色卡数据加载完成！')}catch{alert('加载保存数据时出错，数据格式可能已损坏。')}}}document.getElementById('sv').style.color='#f00';document.getElementById('bv').style.color='#f00'});it();at();
+		// 统一数据存储结构
+		const skillsList = ['斩击技法','刺击技法','钝击技法','鞭击技法','近身搏击','百步穿杨','枪火点射','弹雨倾泻','重炮轰鸣','奇械专精','巧舌如簧','威压恫吓','明见万里','故纸寻踪','明心见性','妙手回春','蛇行鳞潜','鬼蜮伎俩','机动驾驶','运动自如','械理洞明','博古通今','金石药理','万物生息','数据思维'];
+		
+		let char = {
+			b: {n:'',a:'',g:'',nat:'',r:'',bg:'',crd:'',d:''},
+			a: {s:5,b:5},
+			s: Object.fromEntries(skillsList.map(s=>[s,0]))
+		};
+		
+		// 渲染技能表格
+		function renderSkills(){
+			let tbody = document.getElementById('skills-tbody');
+			tbody.innerHTML = '';
+			for(let i=0;i<5;i++){
+				let tr = document.createElement('tr');
+				for(let j=0;j<5;j++){
+					let index = i+j*5;
+					if(index<skillsList.length){
+						let skill = skillsList[index];
+						tr.innerHTML += `<td><div class="sn">${skill}</div><input type="number" class="si" data-s="${skill}" min="0" max="10" value="0"></td>`;
+					}
+				}
+				tbody.appendChild(tr);
+			}
+		}
+		
+		// Three.js初始化
+		let scene, camera, renderer, controls, moon;
+		function initThree(){
+			scene = new THREE.Scene();
+			scene.background = new THREE.Color(0x0a0005);
+			camera = new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
+			camera.position.z = 5;
+			renderer = new THREE.WebGLRenderer({antialias:true,alpha:true,toneMapping:THREE.ACESFilmicToneMapping,toneMappingExposure:1.2});
+			renderer.setSize(window.innerWidth,window.innerHeight);
+			renderer.setPixelRatio(devicePixelRatio);
+			document.getElementById('three-canvas').appendChild(renderer.domElement);
+			
+			controls = new THREE.OrbitControls(camera,renderer.domElement);
+			controls.enableDamping = true;
+			controls.dampingFactor = 0.05;
+			
+			scene.add(new THREE.AmbientLight(0x330000));
+			let light = new THREE.DirectionalLight(0xffaa88,1.5);
+			light.position.set(10,5,7);
+			scene.add(light);
+			
+			let geo = new THREE.BufferGeometry(), pos = new Float32Array(9000), col = new Float32Array(9000);
+			for(let i=0;i<9000;i+=3){
+				let r=30+200*Math.random(),p=2*Math.PI*Math.random(),t=Math.acos(2*Math.random()-1);
+				pos[i]=r*Math.sin(t)*Math.cos(p); pos[i+1]=r*Math.sin(t)*Math.sin(p); pos[i+2]=r*Math.cos(t);
+				col[i]=.6+.4*Math.random(); col[i+1]=.1+.3*Math.random(); col[i+2]=.1+.3*Math.random();
+			}
+			geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+			geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+			scene.add(new THREE.Points(geo,new THREE.PointsMaterial({size:.08,sizeAttenuation:true,vertexColors:true,transparent:true,opacity:.8})));
+			
+			moon = new THREE.Mesh(new THREE.SphereGeometry(2,64,32),new THREE.MeshPhongMaterial({
+				map:new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg'),
+				color:0xff3333,specular:0x552222,shininess:5,emissive:0x220000,emissiveIntensity:.1
+			}));
+			moon.rotation.y=Math.PI/6;
+			scene.add(moon);
+			
+			let canvas = document.createElement('canvas');
+			canvas.width = 64; canvas.height = 64;
+			let ctx = canvas.getContext('2d');
+			let g = ctx.createRadialGradient(32,32,0,32,32,32);
+			g.addColorStop(0,'rgba(255,100,100,1)');
+			g.addColorStop(0.2,'rgba(255,50,50,0.8)');
+			g.addColorStop(1,'rgba(255,0,0,0)');
+			ctx.fillStyle = g;
+			ctx.fillRect(0,0,64,64);
+			
+			let sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+				map: new THREE.CanvasTexture(canvas),
+				color: 0xff4444,
+				transparent: true,
+				blending: THREE.AdditiveBlending,
+				opacity: 0.3
+			}));
+			sprite.scale.set(5,5,1);
+			moon.add(sprite);
+		}
+		
+		function animate(){
+			requestAnimationFrame(animate);
+			moon.rotation.y+=.001;
+			controls.update();
+			renderer.render(scene,camera);
+		}
+		
+		// p5.js粒子
+		let particles=[];
+		function setup(){
+			let c=createCanvas(windowWidth,windowHeight);
+			c.parent('p5-canvas');
+			c.style('position','fixed').style('top','0').style('left','0').style('z-index','5');
+			for(let i=0;i<150;i++) particles.push(new Particle());
+			noStroke();
+		}
+		
+		function draw(){
+			clear();
+			particles.forEach(p=>{p.update();p.display();});
+		}
+		
+		class Particle{
+			constructor(){
+				this.reset();
+				this.size=random(4,10);
+				this.trail=[];
+			}
+			reset(){
+				this.x=random(width);
+				this.y=random(height);
+				this.vx=random(-.8,.8);
+				this.vy=random(-.8,.8);
+				this.a=random(180,250);
+				this.s=random(.5,2);
+			}
+			update(){
+				this.trail.push({x:this.x,y:this.y,a:this.a});
+				if(this.trail.length>12) this.trail.shift();
+				this.x+=this.vx*this.s;
+				this.y+=this.vy*this.s;
+				let dx=mouseX-this.x, dy=mouseY-this.y, d=sqrt(dx*dx+dy*dy);
+				if(d<200){this.vx+=dx/d*.6;this.vy+=dy/d*.6;}
+				if(this.x<0||this.x>width) this.vx*=-.7;
+				if(this.y<0||this.y>height) this.vy*=-.7;
+				let sp=sqrt(this.vx*this.vx+this.vy*this.vy);
+				if(sp>3.5){this.vx=this.vx/sp*3.5;this.vy=this.vy/sp*3.5;}
+				this.vx*=.99;this.vy*=.99;this.a*=.998;
+				if(this.a<30) this.reset();
+			}
+			display(){
+				for(let i=0;i<this.trail.length;i++){
+					let p=this.trail[i],a=p.a*(i/this.trail.length)*.8;
+					fill(color(255,40,40,a));
+					ellipse(p.x,p.y,this.size*(i/this.trail.length)*.8);
+				}
+				fill(color(255,20,20,this.a));
+				drawingContext.shadowBlur=15;
+				drawingContext.shadowColor='rgba(255,40,40,0.8)';
+				ellipse(this.x,this.y,this.size);
+				drawingContext.shadowBlur=0;
+				fill(255,60,60,this.a*.7);
+				ellipse(this.x,this.y,this.size*.4);
+			}
+		}
+		
+		// 统一表单功能
+		function adj(type,val){
+			let el=document.getElementById(type=='s'?'sv':'bv');
+			let v=parseInt(el.textContent)+val;
+			if(v<0)v=0;if(v>20)v=20;
+			el.textContent=v;
+			el.style.color=v<=5?'#f66':v<=10?'#f33':v<=15?'#f00':'#c00';
+			char.a[type=='s'?'s':'b']=v;
+		}
+		
+		function save(){
+			char.b.n=document.getElementById('n').value;
+			char.b.a=document.getElementById('a').value;
+			char.b.g=document.getElementById('g').value;
+			char.b.nat=document.getElementById('nat').value;
+			char.b.r=document.getElementById('r').value;
+			char.b.bg=document.getElementById('bg').value;
+			char.b.crd=document.getElementById('crd').value;
+			char.b.d=document.getElementById('d').value;
+			
+			document.querySelectorAll('.si').forEach(input=>{
+				char.s[input.dataset.s]=parseInt(input.value)||0;
+			});
+			
+			localStorage.setItem('char',JSON.stringify(char));
+			alert('已保存！');
+		}
+		
+		function reset(){
+			if(confirm('确定重置所有数据吗？')){
+				char={b:{n:'',a:'',g:'',nat:'',r:'',bg:'',crd:'',d:''},a:{s:5,b:5},s:{}};
+				char.s=Object.fromEntries(skillsList.map(s=>[s,0]));
+				updateUI();
+				document.getElementById('g').value='';
+				updateLabel('g');
+			}
+		}
+		
+		function exp(){
+			save();
+			let a=document.createElement('a');
+			a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(char,null,2));
+			a.download='character.json';
+			a.click();
+		}
+		
+		function updateUI(){
+			document.getElementById('n').value=char.b.n;
+			document.getElementById('a').value=char.b.a;
+			document.getElementById('g').value=char.b.g;
+			document.getElementById('nat').value=char.b.nat;
+			document.getElementById('r').value=char.b.r;
+			document.getElementById('bg').value=char.b.bg;
+			document.getElementById('crd').value=char.b.crd;
+			document.getElementById('d').value=char.b.d;
+			document.getElementById('sv').textContent=char.a.s;
+			document.getElementById('bv').textContent=char.a.b;
+			document.querySelectorAll('.si').forEach(input=>{
+				input.value=char.s[input.dataset.s]||0;
+			});
+		}
+		
+		function updateLabel(id){
+			let el=document.getElementById(id);
+			el.nextElementSibling.classList.toggle('float',!!el.value);
+		}
+		
+		// 初始化
+		window.addEventListener('DOMContentLoaded',function(){
+			renderSkills();
+			
+			// 性别下拉框事件
+			let genderSelect = document.getElementById('g');
+			genderSelect.addEventListener('change',function(){updateLabel('g');char.b.g=this.value;});
+			genderSelect.addEventListener('focus',function(){this.nextElementSibling.classList.add('float');});
+			genderSelect.addEventListener('blur',function(){if(!this.value)this.nextElementSibling.classList.remove('float');});
+			
+			// 输入框事件
+			['n','a','nat','r','bg','crd','d'].forEach(id=>{
+				let el=document.getElementById(id);
+				el.addEventListener('input',function(){char.b[id]=this.value;});
+			});
+			
+			// 技能输入事件
+			document.addEventListener('input',function(e){
+				if(e.target.classList.contains('si')){
+					char.s[e.target.dataset.s]=parseInt(e.target.value)||0;
+				}
+			});
+			
+			// 加载数据
+			let saved=localStorage.getItem('char');
+			if(saved){
+				if(confirm('检测到保存的角色卡，是否加载？')){
+					char=JSON.parse(saved);
+					updateUI();
+					updateLabel('g');
+				}
+			}
+			
+			initThree();
+			animate();
+		});
 	</script>
 </body>
 </html>

@@ -25,7 +25,7 @@
 					<h2>基础设定</h2>
 					<div class="input-container"><input type="text" id="n" class="md3-input" placeholder=" "><span class="input-label">角色姓名</span></div>
 					<div class="input-container"><input type="number" id="a" class="md3-input" placeholder=" "><span class="input-label">年龄</span></div>
-					<div class="input-container"><select id="g" class="md3-input" required><option value="" disabled selected>请选择性别</option><option value="m">男性</option><option value="f">女性</option><option value="o">其他</option></select><span class="input-label">性别</span></div>
+					<div class="input-container"><input type="text" id="g" class="md3-input" placeholder=" "><span class="input-label">性别</span></div>
 					<div class="input-container"><input type="text" id="nat" class="md3-input" placeholder=" "><span class="input-label">国籍</span></div>
 					<div class="input-container"><input type="text" id="r" class="md3-input" placeholder=" "><span class="input-label">人种/种族</span></div>
 					<div class="st">背景与信念</div>
@@ -209,8 +209,6 @@
 			let v=parseInt(el.textContent)+val;
 			if(v<0)v=0;if(v>20)v=20;
 			el.textContent=v;
-			el.style.color=v<=5?'#f66':v<=10?'#f33':v<=15?'#f00':'#c00';
-			char.a[type=='s'?'s':'b']=v;
 		}
 		
 		function save(){
@@ -274,14 +272,8 @@
 		window.addEventListener('DOMContentLoaded',function(){
 			renderSkills();
 			
-			// 性别下拉框事件
-			let genderSelect = document.getElementById('g');
-			genderSelect.addEventListener('change',function(){updateLabel('g');char.b.g=this.value;});
-			genderSelect.addEventListener('focus',function(){this.nextElementSibling.classList.add('float');});
-			genderSelect.addEventListener('blur',function(){if(!this.value)this.nextElementSibling.classList.remove('float');});
-			
 			// 输入框事件
-			['n','a','nat','r','bg','crd','d'].forEach(id=>{
+			['n','a','nat','r','bg','crd','d','g'].forEach(id=>{
 				let el=document.getElementById(id);
 				el.addEventListener('input',function(){char.b[id]=this.value;});
 			});
@@ -305,6 +297,8 @@
 			
 			initThree();
 			animate();
+			setup();
+			draw();
 		});
 	</script>
 </body>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>角色创建 - 扮演者调查报告</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .character-creator {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .creator-section {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .creator-section h2 {
+      color: #333;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 10px;
+      margin-top: 0;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #555;
+    }
+    
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    .form-group textarea {
+      height: 80px;
+      resize: vertical;
+    }
+    
+    .points-display {
+      background: #e8f5e8;
+      border: 1px solid #4CAF50;
+      border-radius: 4px;
+      padding: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .attribute-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .attribute-item {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .attribute-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4CAF50;
+      margin: 10px 0;
+    }
+    
+    .attribute-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .attribute-controls button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 15px;
+      cursor: pointer;
+    }
+    
+    .attribute-controls button:hover {
+      background: #45a049;
+    }
+    
+    .attribute-controls button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .talent-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    
+    .talent-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .talent-item:last-child {
+      border-bottom: none;
+    }
+    
+    .talent-info {
+      flex: 1;
+    }
+    
+    .talent-name {
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .talant-price {
+      color: #4CAF50;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    
+    .talent-description {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+    
+    .btn-primary {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    
+    .btn-primary:hover {
+      background: #45a049;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px;
+    }
+    
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    
+    .summary-section {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: #4CAF50;
+      transition: width 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="character-creator">
+    <h1>角色创建向导</h1>
+    
+    <div class="points-display">
+      剩余瞑目点数：<span id="remaining-points">8</span>
+    </div>
+    
+    <!-- 基础设定 -->
+    <div class="creator-section">
+      <h2>基础设定</h2>
+      <div class="form-group">
+        <label for="character-name">角色姓名</label>
+        <input type="text" id="character-name" placeholder="输入角色姓名">
+      </div>
+      
+      <div class="form-group">
+        <label for="character-age">年龄</label>
+        <select id="character-age">
+          <option value="under20">小于20岁（魂、魄共计-2点）</option>
+          <option value="20-30" selected>20-30岁（正常属性）</option>
+          <option value="30-40">30-40岁（魂+1，魄-1）</option>
+          <option value="40-50">40-50岁（魂魄各-2）</option>
+          <option value="50-60">50-60岁（多-2）</option>
+          <option value="60-70">60-70岁（多-4）</option>
+          <option value="70-80">70-80岁（多-6）</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="character-gender">性别</label>
+        <select id="character-gender">
+          <option value="male">男性</option>
+          <option value="female">女性</option>
+          <option value="other">其他</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="character-nationality">国籍</label>
+        <input type="text" id="character-nationality" placeholder="输入国籍">
+      </div>
+      
+      <div class="form-group">
+        <label for="character-race">人种/种族</label>
+        <input type="text" id="character-race" placeholder="输入人种或种族">
+      </div>
+      
+      <div class="form-group">
+        <label for="character-background">背景经历</label>
+        <textarea id="character-background" placeholder="描述角色的背景故事和经历"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="character-creed">信条</label>
+        <input type="text" id="character-creed" placeholder="输入角色的信条">
+      </div>
+      
+      <div class="form-group">
+        <label for="character-desire">欲望</label>
+        <input type="text" id="character-desire" placeholder="输入角色的欲望">
+      </div>
+    </div>
+    
+    <!-- 属性分配 -->
+    <div class="creator-section">
+      <h2>属性分配</h2>
+      <div class="attribute-grid">
+        <div class="attribute-item">
+          <h3>魂（思维）</h3>
+          <div class="attribute-value" id="soul-value">3</div>
+          <div class="attribute-controls">
+            <button onclick="adjustAttribute('soul', -1)">-</button>
+            <button onclick="adjustAttribute('soul', 1)">+</button>
+          </div>
+        </div>
+        
+        <div class="attribute-item">
+          <h3>魄（身体）</h3>
+          <div class="attribute-value" id="body-value">3</div>
+          <div class="attribute-controls">
+            <button onclick="adjustAttribute('body', -1)">-</button>
+            <button onclick="adjustAttribute('body', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 天赋选择 -->
+    <div class="creator-section">
+      <h2>天赋选择</h2>
+      <div class="talent-list" id="talent-list">
+        <!-- 天赋列表将通过JavaScript动态加载 -->
+      </div>
+    </div>
+    
+    <!-- 创建按钮 -->
+    <div style="text-align: center; margin: 30px 0;">
+      <button class="btn-primary" onclick="saveCharacter()">保存角色</button>
+      <button class="btn-secondary" onclick="resetCharacter()">重置</button>
+    </div>
+    
+    <!-- 角色总结 -->
+    <div class="summary-section" id="character-summary" style="display: none;">
+      <h2>角色总结</h2>
+      <div id="summary-content"></div>
+    </div>
+  </div>
+
+  <script>
+    // 角色数据
+    let character = {
+      name: '',
+      age: '20-30',
+      gender: 'male',
+      nationality: '',
+      race: '',
+      background: '',
+      creed: '',
+      desire: '',
+      attributes: {
+        soul: 3,
+        body: 3
+      },
+      talents: [],
+      remainingPoints: 8
+    };
+
+    // 天赋数据（简化版）
+    const talents = [
+      { id: 1, name: '五感敏锐', price: -3, description: '五感就是你的武器，感知相关检定成功数+1。' },
+      { id: 2, name: '体味微弱', price: -1, description: '你几乎没有什么体味，这让你在潜行和社交时都占尽优势。' },
+      { id: 3, name: '偷袭', price: -4, description: '对于那些不够敏锐的敌人来说，你是噩梦。首次攻击必定暴击。' },
+      { id: 4, name: '先手', price: -3, description: '仓促反应怎么可能比得过你的提前谋划，战斗时必定先手攻击。' },
+      { id: 5, name: '五感迟钝', price: 2, description: '找东西是你最讨厌的事情，感知相关检定成功数-1。' },
+      { id: 6, name: '健忘', price: 3, description: '你的记忆就像金鱼，只有短期记忆。活到老，学到老，然后忘到老。' }
+    ];
+
+    // 初始化
+    function init() {
+      loadTalents();
+      updatePointsDisplay();
+      bindEvents();
+    }
+
+    // 加载天赋列表
+    function loadTalents() {
+      const talentList = document.getElementById('talent-list');
+      talentList.innerHTML = '';
+      
+      talents.forEach(talent => {
+        const talentItem = document.createElement('div');
+        talentItem.className = 'talent-item';
+        talentItem.innerHTML = `
+          <div class="talent-info">
+            <div class="talent-name">${talent.name}</div>
+            <div class="talent-description">${talent.description}</div>
+          </div>
+          <div class="talant-price">${talent.price > 0 ? '+' : ''}${talent.price} 瞑目</div>
+          <button onclick="toggleTalent(${talent.id})" id="talent-btn-${talent.id}">
+            ${character.talents.includes(talent.id) ? '移除' : '选择'}
+          </button>
+        `;
+        talentList.appendChild(talentItem);
+      });
+    }
+
+    // 调整属性
+    function adjustAttribute(attr, delta) {
+      const currentValue = character.attributes[attr];
+      const newValue = currentValue + delta;
+      
+      // 限制范围：1-10
+      if (newValue < 1 || newValue > 10) return;
+      
+      // 计算点数消耗
+      const cost = getAttributeCost(newValue) - getAttributeCost(currentValue);
+      
+      if (cost > character.remainingPoints) {
+        alert('点数不足！');
+        return;
+      }
+      
+      character.attributes[attr] = newValue;
+      character.remainingPoints -= cost;
+      
+      document.getElementById(`${attr}-value`).textContent = newValue;
+      updatePointsDisplay();
+      updateAttributeButtons();
+    }
+
+    // 获取属性点数消耗
+    function getAttributeCost(value) {
+      if (value >= 1 && value <= 3) return 1;
+      if (value >= 4 && value <= 6) return 2;
+      if (value >= 7 && value <= 9) return 4;
+      if (value === 10) return 8;
+      return 0;
+    }
+
+    // 切换天赋选择
+    function toggleTalent(talentId) {
+      const talent = talents.find(t => t.id === talentId);
+      const index = character.talents.indexOf(talentId);
+      
+      if (index === -1) {
+        // 添加天赋
+        if (talent.price > character.remainingPoints) {
+          alert('点数不足！');
+          return;
+        }
+        character.talents.push(talentId);
+        character.remainingPoints -= talent.price;
+      } else {
+        // 移除天赋
+        character.talents.splice(index, 1);
+        character.remainingPoints += talent.price;
+      }
+      
+      loadTalents();
+      updatePointsDisplay();
+    }
+
+    // 更新点数显示
+    function updatePointsDisplay() {
+      document.getElementById('remaining-points').textContent = character.remainingPoints;
+    }
+
+    // 更新属性按钮状态
+    function updateAttributeButtons() {
+      ['soul', 'body'].forEach(attr => {
+        const value = character.attributes[attr];
+        const buttons = document.querySelectorAll(`.attribute-item:has(#${attr}-value) button`);
+        
+        buttons[0].disabled = value <= 1; // 减少按钮
+        buttons[1].disabled = value >= 10 || getAttributeCost(value + 1) > character.remainingPoints; // 增加按钮
+      });
+    }
+
+    // 绑定事件
+    function bindEvents() {
+      // 基础信息输入
+      document.getElementById('character-name').addEventListener('input', (e) => {
+        character.name = e.target.value;
+      });
+      
+      document.getElementById('character-age').addEventListener('change', (e) => {
+        character.age = e.target.value;
+      });
+      
+      document.getElementById('character-gender').addEventListener('change', (e) => {
+        character.gender = e.target.value;
+      });
+      
+      document.getElementById('character-nationality').addEventListener('input', (e) => {
+        character.nationality = e.target.value;
+      });
+      
+      document.getElementById('character-race').addEventListener('input', (e) => {
+        character.race = e.target.value;
+      });
+      
+      document.getElementById('character-background').addEventListener('input', (e) => {
+        character.background = e.target.value;
+      });
+      
+      document.getElementById('character-creed').addEventListener('input', (e) => {
+        character.creed = e.target.value;
+      });
+      
+      document.getElementById('character-desire').addEventListener('input', (e) => {
+        character.desire = e.target.value;
+      });
+    }
+
+    // 保存角色
+    function saveCharacter() {
+      if (!character.name) {
+        alert('请输入角色姓名！');
+        return;
+      }
+      
+      // 显示角色总结
+      showCharacterSummary();
+      
+      // 这里可以添加保存到本地存储或服务器的逻辑
+      localStorage.setItem('character', JSON.stringify(character));
+      alert('角色保存成功！');
+    }
+
+    // 显示角色总结
+    function showCharacterSummary() {
+      const summarySection = document.getElementById('character-summary');
+      const summaryContent = document.getElementById('summary-content');
+      
+      const selectedTalents = character.talents.map(id => 
+        talents.find(t => t.id === id)
+      );
+      
+      summaryContent.innerHTML = `
+        <h3>${character.name}</h3>
+        <p><strong>年龄：</strong>${getAgeText(character.age)}</p>
+        <p><strong>性别：</strong>${getGenderText(character.gender)}</p>
+        <p><strong>国籍：</strong>${character.nationality || '未设置'}</p>
+        <p><strong>种族：</strong>${character.race || '未设置'}</p>
+        <p><strong>信条：</strong>${character.creed || '未设置'}</p>
+        <p><strong>欲望：</strong>${character.desire || '未设置'}</p>
+        <p><strong>魂：</strong>${character.attributes.soul}</p>
+        <p><strong>魄：</strong>${character.attributes.body}</p>
+        <p><strong>天赋：</strong></p>
+        <ul>
+          ${selectedTalents.map(talent => `<li>${talent.name} (${talent.price > 0 ? '+' : ''}${talent.price} 瞑目)</li>`).join('')}
+        </ul>
+        <p><strong>背景：</strong></p>
+        <p>${character.background || '未设置'}</p>
+      `;
+      
+      summarySection.style.display = 'block';
+    }
+
+    // 获取年龄文本
+    function getAgeText(age) {
+      const ageMap = {
+        'under20': '小于20岁',
+        '20-30': '20-30岁',
+        '30-40': '30-40岁',
+        '40-50': '40-50岁',
+        '50-60': '50-60岁',
+        '60-70': '60-70岁',
+        '70-80': '70-80岁'
+      };
+      return ageMap[age] || age;
+    }
+
+    // 获取性别文本
+    function getGenderText(gender) {
+      const genderMap = {
+        'male': '男性',
+        'female': '女性',
+        'other': '其他'
+      };
+      return genderMap[gender] || gender;
+    }
+
+    // 重置角色
+    function resetCharacter() {
+      if (confirm('确定要重置所有数据吗？')) {
+        character = {
+          name: '',
+          age: '20-30',
+          gender: 'male',
+          nationality: '',
+          race: '',
+          background: '',
+          creed: '',
+          desire: '',
+          attributes: {
+            soul: 3,
+            body: 3
+          },
+          talents: [],
+          remainingPoints: 8
+        };
+        
+        // 重置表单
+        document.getElementById('character-name').value = '';
+        document.getElementById('character-age').value = '20-30';
+        document.getElementById('character-gender').value = 'male';
+        document.getElementById('character-nationality').value = '';
+        document.getElementById('character-race').value = '';
+        document.getElementById('character-background').value = '';
+        document.getElementById('character-creed').value = '';
+        document.getElementById('character-desire').value = '';
+        
+        document.getElementById('soul-value').textContent = '3';
+        document.getElementById('body-value').textContent = '3';
+        
+        document.getElementById('character-summary').style.display = 'none';
+        
+        init();
+      }
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

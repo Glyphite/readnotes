@@ -14,6 +14,29 @@
       gap: 20px;
     }
     
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: #f0f0f0;
+      border-radius: 8px;
+    }
+    
+    .title {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #333;
+      margin: 0;
+    }
+    
+    .points-display {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    
     .left-panel {
       flex: 1;
     }
@@ -256,13 +279,12 @@
   </style>
 </head>
 <body>
+  <div class="header">
+    <h1 class="title">角色创建向导</h1>
+    <div class="points-display" id="header-points">剩余瞑目点数：<span id="remaining-points">8</span></div>
+  </div>
+  
   <div class="character-creator">
-    <h1>角色创建向导</h1>
-    
-    <div class="points-display">
-      剩余瞑目点数：<span id="remaining-points">8</span>
-    </div>
-    
     <div class="left-panel">
       <!-- 基础设定 -->
       <div class="creator-section">

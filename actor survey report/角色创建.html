@@ -10,6 +10,19 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      display: flex;
+      gap: 20px;
+    }
+    
+    .left-panel {
+      flex: 1;
+    }
+    
+    .right-panel {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
     
     .creator-section {
@@ -17,7 +30,6 @@
       border: 1px solid #ddd;
       border-radius: 8px;
       padding: 20px;
-      margin-bottom: 20px;
     }
     
     .creator-section h2 {
@@ -44,6 +56,7 @@
       border: 1px solid #ddd;
       border-radius: 4px;
       font-size: 14px;
+      box-sizing: border-box;
     }
     
     .form-group textarea {
@@ -108,12 +121,66 @@
       cursor: not-allowed;
     }
     
+    .skill-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .skill-item {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .skill-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .skill-level {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2196F3;
+      margin: 5px 0;
+    }
+    
+    .skill-controls {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    
+    .skill-controls button {
+      background: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 3px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    .skill-controls button:hover {
+      background: #1976D2;
+    }
+    
+    .skill-controls button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
     .talent-list {
       max-height: 300px;
       overflow-y: auto;
       border: 1px solid #ddd;
       border-radius: 4px;
       padding: 10px;
+      background: white;
     }
     
     .talent-item {
@@ -137,7 +204,7 @@
       color: #333;
     }
     
-    .talant-price {
+    .talent-price {
       color: #4CAF50;
       font-weight: bold;
       margin-left: 10px;
@@ -186,21 +253,6 @@
       padding: 20px;
       margin-top: 20px;
     }
-    
-    .progress-bar {
-      width: 100%;
-      height: 20px;
-      background: #f0f0f0;
-      border-radius: 10px;
-      overflow: hidden;
-      margin: 10px 0;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: #4CAF50;
-      transition: width 0.3s ease;
-    }
   </style>
 </head>
 <body>
@@ -211,91 +263,103 @@
       剩余瞑目点数：<span id="remaining-points">8</span>
     </div>
     
-    <!-- 基础设定 -->
-    <div class="creator-section">
-      <h2>基础设定</h2>
-      <div class="form-group">
-        <label for="character-name">角色姓名</label>
-        <input type="text" id="character-name" placeholder="输入角色姓名">
-      </div>
-      
-      <div class="form-group">
-        <label for="character-age">年龄</label>
-        <select id="character-age">
-          <option value="under20">小于20岁（魂、魄共计-2点）</option>
-          <option value="20-30" selected>20-30岁（正常属性）</option>
-          <option value="30-40">30-40岁（魂+1，魄-1）</option>
-          <option value="40-50">40-50岁（魂魄各-2）</option>
-          <option value="50-60">50-60岁（多-2）</option>
-          <option value="60-70">60-70岁（多-4）</option>
-          <option value="70-80">70-80岁（多-6）</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="character-gender">性别</label>
-        <select id="character-gender">
-          <option value="male">男性</option>
-          <option value="female">女性</option>
-          <option value="other">其他</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="character-nationality">国籍</label>
-        <input type="text" id="character-nationality" placeholder="输入国籍">
-      </div>
-      
-      <div class="form-group">
-        <label for="character-race">人种/种族</label>
-        <input type="text" id="character-race" placeholder="输入人种或种族">
-      </div>
-      
-      <div class="form-group">
-        <label for="character-background">背景经历</label>
-        <textarea id="character-background" placeholder="描述角色的背景故事和经历"></textarea>
-      </div>
-      
-      <div class="form-group">
-        <label for="character-creed">信条</label>
-        <input type="text" id="character-creed" placeholder="输入角色的信条">
-      </div>
-      
-      <div class="form-group">
-        <label for="character-desire">欲望</label>
-        <input type="text" id="character-desire" placeholder="输入角色的欲望">
-      </div>
-    </div>
-    
-    <!-- 属性分配 -->
-    <div class="creator-section">
-      <h2>属性分配</h2>
-      <div class="attribute-grid">
-        <div class="attribute-item">
-          <h3>魂（思维）</h3>
-          <div class="attribute-value" id="soul-value">3</div>
-          <div class="attribute-controls">
-            <button onclick="adjustAttribute('soul', -1)">-</button>
-            <button onclick="adjustAttribute('soul', 1)">+</button>
-          </div>
+    <div class="left-panel">
+      <!-- 基础设定 -->
+      <div class="creator-section">
+        <h2>基础设定</h2>
+        <div class="form-group">
+          <label for="character-name">角色姓名</label>
+          <input type="text" id="character-name" placeholder="输入角色姓名">
         </div>
         
-        <div class="attribute-item">
-          <h3>魄（身体）</h3>
-          <div class="attribute-value" id="body-value">3</div>
-          <div class="attribute-controls">
-            <button onclick="adjustAttribute('body', -1)">-</button>
-            <button onclick="adjustAttribute('body', 1)">+</button>
-          </div>
+        <div class="form-group">
+          <label for="character-age">年龄</label>
+          <select id="character-age">
+            <option value="under20">小于20岁（魂、魄共计-2点）</option>
+            <option value="20-30" selected>20-30岁（正常属性）</option>
+            <option value="30-40">30-40岁（魂+1，魄-1）</option>
+            <option value="40-50">40-50岁（魂魄各-2）</option>
+            <option value="50-60">50-60岁（多-2）</option>
+            <option value="60-70">60-70岁（多-4）</option>
+            <option value="70-80">70-80岁（多-6）</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="character-gender">性别</label>
+          <select id="character-gender">
+            <option value="male">男性</option>
+            <option value="female">女性</option>
+            <option value="other">其他</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="character-nationality">国籍</label>
+          <input type="text" id="character-nationality" placeholder="输入国籍">
+        </div>
+        
+        <div class="form-group">
+          <label for="character-race">人种/种族</label>
+          <input type="text" id="character-race" placeholder="输入人种或种族">
+        </div>
+        
+        <div class="form-group">
+          <label for="character-background">背景经历</label>
+          <textarea id="character-background" placeholder="描述角色的背景故事和经历"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="character-creed">信条</label>
+          <input type="text" id="character-creed" placeholder="输入角色的信条">
+        </div>
+        
+        <div class="form-group">
+          <label for="character-desire">欲望</label>
+          <input type="text" id="character-desire" placeholder="输入角色的欲望">
         </div>
       </div>
     </div>
     
-    <!-- 天赋选择 -->
-    <div class="creator-section">
-      <h2>天赋选择</h2>
-      <div class="talent-list" id="talent-list">
-        <!-- 天赋列表将通过JavaScript动态加载 -->
+    <div class="right-panel">
+      <!-- 属性分配 -->
+      <div class="creator-section">
+        <h2>属性分配</h2>
+        <div class="attribute-grid">
+          <div class="attribute-item">
+            <h3>魂（思维）</h3>
+            <div class="attribute-value" id="soul-value">3</div>
+            <div class="attribute-controls">
+              <button onclick="adjustAttribute('soul', -1)">-</button>
+              <button onclick="adjustAttribute('soul', 1)">+</button>
+            </div>
+          </div>
+          
+          <div class="attribute-item">
+            <h3>魄（身体）</h3>
+            <div class="attribute-value" id="body-value">3</div>
+            <div class="attribute-controls">
+              <button onclick="adjustAttribute('body', -1)">-</button>
+              <button onclick="adjustAttribute('body', 1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 技能选择 -->
+      <div class="creator-section">
+        <h2>技能选择</h2>
+        <div class="skill-grid" id="skill-grid">
+          <!-- 技能列表将通过JavaScript动态加载 -->
+        </div>
+      </div>
+      
+      <!-- 天赋选择 -->
+      <div class="creator-section">
+        <h2>天赋选择</h2>
+        <div class="talent-list" id="talent-list">
+          <!-- 天赋列表将通过JavaScript动态加载 -->
+        </div>
       </div>
     </div>
     
@@ -327,6 +391,13 @@
         soul: 3,
         body: 3
       },
+      skills: {
+        '近战': 0,
+        '远程': 0,
+        '探索': 0,
+        '交互': 0,
+        '知识': 0
+      },
       talents: [],
       remainingPoints: 8
     };
@@ -344,8 +415,29 @@
     // 初始化
     function init() {
       loadTalents();
+      loadSkills();
       updatePointsDisplay();
       bindEvents();
+    }
+
+    // 加载技能列表
+    function loadSkills() {
+      const skillGrid = document.getElementById('skill-grid');
+      skillGrid.innerHTML = '';
+      
+      Object.keys(character.skills).forEach(skillName => {
+        const skillItem = document.createElement('div');
+        skillItem.className = 'skill-item';
+        skillItem.innerHTML = `
+          <div class="skill-name">${skillName}</div>
+          <div class="skill-level" id="skill-${skillName.replace(/\s/g, '-')}">${character.skills[skillName]}</div>
+          <div class="skill-controls">
+            <button onclick="adjustSkill('${skillName}', -1)">-</button>
+            <button onclick="adjustSkill('${skillName}', 1)">+</button>
+          </div>
+        `;
+        skillGrid.appendChild(skillItem);
+      });
     }
 
     // 加载天赋列表
@@ -370,28 +462,39 @@
       });
     }
 
-    // 调整属性
-    function adjustAttribute(attr, delta) {
-      const currentValue = character.attributes[attr];
-      const newValue = currentValue + delta;
+    // 调整技能
+    function adjustSkill(skillName, delta) {
+      const currentLevel = character.skills[skillName];
+      const newLevel = currentLevel + delta;
       
-      // 限制范围：1-10
-      if (newValue < 1 || newValue > 10) return;
+      // 限制范围：0-10
+      if (newLevel < 0 || newLevel > 10) return;
       
-      // 计算点数消耗
-      const cost = getAttributeCost(newValue) - getAttributeCost(currentValue);
+      // 计算点数消耗（与属性相同）
+      const cost = getAttributeCost(newLevel) - getAttributeCost(currentLevel);
       
       if (cost > character.remainingPoints) {
         alert('点数不足！');
         return;
       }
       
-      character.attributes[attr] = newValue;
+      character.skills[skillName] = newLevel;
       character.remainingPoints -= cost;
       
-      document.getElementById(`${attr}-value`).textContent = newValue;
+      document.getElementById(`skill-${skillName.replace(/\s/g, '-')}`).textContent = newLevel;
       updatePointsDisplay();
-      updateAttributeButtons();
+      updateSkillButtons(skillName);
+    }
+
+    // 更新技能按钮状态
+    function updateSkillButtons(skillName) {
+      const level = character.skills[skillName];
+      const buttons = document.querySelectorAll(`.skill-controls:has(button[onclick*="adjustSkill('${skillName}'"]) button`);
+      
+      if (buttons.length >= 2) {
+        buttons[0].disabled = level <= 0; // 减少按钮
+        buttons[1].disabled = level >= 10 || getAttributeCost(level + 1) > character.remainingPoints; // 增加按钮
+      }
     }
 
     // 获取属性点数消耗
@@ -512,6 +615,10 @@
         <p><strong>欲望：</strong>${character.desire || '未设置'}</p>
         <p><strong>魂：</strong>${character.attributes.soul}</p>
         <p><strong>魄：</strong>${character.attributes.body}</p>
+        <p><strong>技能：</strong></p>
+        <ul>
+          ${Object.keys(character.skills).map(skill => `<li>${skill}: ${character.skills[skill]}</li>`).join('')}
+        </ul>
         <p><strong>天赋：</strong></p>
         <ul>
           ${selectedTalents.map(talent => `<li>${talent.name} (${talent.price > 0 ? '+' : ''}${talent.price} 瞑目)</li>`).join('')}
@@ -562,6 +669,13 @@
           attributes: {
             soul: 3,
             body: 3
+          },
+          skills: {
+            '近战': 0,
+            '远程': 0,
+            '探索': 0,
+            '交互': 0,
+            '知识': 0
           },
           talents: [],
           remainingPoints: 8

@@ -135,7 +135,7 @@
     
     .attribute-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 15px;
       margin-bottom: 20px;
     }
@@ -144,15 +144,20 @@
       background: white;
       border: 1px solid #ddd;
       border-radius: 4px;
-      padding: 15px;
+      padding: 10px;
       text-align: center;
     }
     
+    .attribute-item h3 {
+      margin: 0 0 5px 0;
+      font-size: 16px;
+    }
+    
     .attribute-value {
-      font-size: 24px;
+      font-size: 18px;
       font-weight: bold;
       color: #4CAF50;
-      margin: 10px 0;
+      margin: 5px 0;
     }
     
     .attribute-controls {

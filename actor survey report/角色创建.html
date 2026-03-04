@@ -188,10 +188,31 @@
       flex: 0 0 auto;
     }
     
+    .skill-categories {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .skill-category {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .skill-category h4 {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    
     .skill-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 10px;
+      grid-template-columns: 1fr;
+      gap: 5px;
       margin-bottom: 20px;
     }
     
@@ -413,8 +434,8 @@
       <!-- 技能选择 -->
       <div class="creator-section">
         <h2>技能选择</h2>
-        <div class="skill-grid" id="skill-grid">
-          <!-- 技能列表将通过JavaScript动态加载 -->
+        <div class="skill-categories" id="skill-categories">
+          <!-- 技能分类将通过JavaScript动态加载 -->
         </div>
       </div>
       
@@ -496,31 +517,47 @@
       { id: 6, name: '健忘', price: 3, description: '你的记忆就像金鱼，只有短期记忆。活到老，学到老，然后忘到老。' }
     ];
 
+    // 技能分类
+    const categories = [
+      { name: '近战', skills: ['斩击技法', '刺击技法', '钝击技法', '鞭击技法', '近身搏击'] },
+      { name: '远程', skills: ['百步穿杨', '枪火点射', '弹雨倾泻', '重炮轰鸣', '奇械专精'] },
+      { name: '探索', skills: ['巧舌如簧', '威压恫吓', '明见万里', '故纸寻踪', '明心见性'] },
+      { name: '交互', skills: ['妙手回春', '蛇行鳞潜', '鬼蜮伎俩', '机动驾驶', '运动自如'] },
+      { name: '知识', skills: ['械理洞明', '博古通今', '万物生息', '金石药理', '数据思维'] }
+    ];
+
     // 初始化
     function init() {
+      loadSkillCategories();
       loadTalents();
-      loadSkills();
       updatePointsDisplay();
       bindEvents();
     }
 
-    // 加载技能列表
-    function loadSkills() {
-      const skillGrid = document.getElementById('skill-grid');
-      skillGrid.innerHTML = '';
+    // 加载技能分类
+    function loadSkillCategories() {
+      const container = document.getElementById('skill-categories');
+      container.innerHTML = '';
       
-      Object.keys(character.skills).forEach(skillName => {
-        const skillItem = document.createElement('div');
-        skillItem.className = 'skill-item';
-        skillItem.innerHTML = `
-          <div class="skill-name">${skillName}</div>
-          <div class="skill-level" id="skill-${skillName.replace(/\s/g, '-')}">${character.skills[skillName]}</div>
-          <div class="skill-controls">
-            <button onclick="adjustSkill('${skillName}', -1)">-</button>
-            <button onclick="adjustSkill('${skillName}', 1)">+</button>
+      categories.forEach(cat => {
+        const categoryDiv = document.createElement('div');
+        categoryDiv.className = 'skill-category';
+        categoryDiv.innerHTML = `
+          <h4>${cat.name}</h4>
+          <div class="skill-grid">
+            ${cat.skills.map(skill => `
+              <div class="skill-item">
+                <div class="skill-name">${skill}</div>
+                <div class="skill-level" id="skill-${skill.replace(/\s/g, '-')}">${character.skills[skill]}</div>
+                <div class="skill-controls">
+                  <button onclick="adjustSkill('${skill}', -1)">-</button>
+                  <button onclick="adjustSkill('${skill}', 1)">+</button>
+                </div>
+              </div>
+            `).join('')}
           </div>
         `;
-        skillGrid.appendChild(skillItem);
+        container.appendChild(categoryDiv);
       });
     }
 
